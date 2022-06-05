@@ -8,7 +8,7 @@ public class Main {
 
             Ubezpieczyciel[] ub = rozpocznij.wczytajUbezpieczycieli("filename.txt");
 
-            System.out.println( 1  * 223);
+            System.out.println( 223);
             System.out.println( 0.5 * -1 * 0.0001);
             System.out.println( 0 * -1 * 0.0001);
 
