@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class Main {
@@ -9,10 +11,14 @@ public class Main {
             Ubezpieczyciel[] ub = rozpocznij.wczytajUbezpieczycieli("filename.txt");
             MarkaPojazdu[] mr = rozpocznij.wczytajMarki("pojazdy.txt");
 
-            System.out.println( mr[0].getRodzaj(0));
-            System.out.println( mr[0].getNazwa());
-            System.out.println( mr[0].getModel(0));
-            System.out.println( mr[0].getWartoscModelu(0));
+            System.out.println( mr[1].getRodzaj(0));
+            System.out.println( mr[1].getNazwa());
+            System.out.println( mr[1].getModel(0));
+            System.out.println( mr[1].getWartoscModelu(0));
+            Date now = new Date();
+            SimpleDateFormat sd = new SimpleDateFormat("yyyy");
+            int rok = Integer.parseInt(sd.format(now));
+            System.out.println(rok);
 
     }
 }

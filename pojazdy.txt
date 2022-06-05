@@ -1,4 +1,4 @@
-1
+2
 BMW
 5
 osobowka
@@ -16,3 +16,11 @@ x5
 osobowka
 i8
 600000
+Yamaha
+2
+motor
+YZFR 125
+25000
+motor
+R1
+125000

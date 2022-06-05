@@ -1,6 +1,6 @@
 public class Pojazd {
 
-    private int rodzajP;
+
     private int rok_produkcji;
     private String marka;
     private String model;
@@ -10,7 +10,7 @@ public class Pojazd {
     private int stopien_uszkodzen;
 
     public Pojazd() {
-        this.rodzajP = 0;
+
         this.rok_produkcji = 0;
         this.marka = "";
         this.model = "";
@@ -20,8 +20,8 @@ public class Pojazd {
         this.stopien_uszkodzen = 0;
     }
 
-    public Pojazd(int rodzajP, int rok_produkcji, String marka, String model, String rodzaj_paliwa, double pojemnosc_silnika, int przebieg, int stopien_uszkodzen) {
-        this.rodzajP = rodzajP;
+    public Pojazd(int rok_produkcji, String marka, String model, String rodzaj_paliwa, double pojemnosc_silnika, int przebieg, int stopien_uszkodzen) {
+
         this.rok_produkcji = rok_produkcji;
         this.marka = marka;
         this.model = model;
@@ -29,10 +29,6 @@ public class Pojazd {
         this.pojemnosc_silnika = pojemnosc_silnika;
         this.przebieg = przebieg;
         this.stopien_uszkodzen = stopien_uszkodzen;
-    }
-
-    public int getRodzajP() {
-        return rodzajP;
     }
 
     public int getRok_produkcji() {
