@@ -1,13 +1,18 @@
-3
+1
 BMW
 5
+osobowka
 seria 3
 150000
+osobowka
 seria 5
 250000
+osobowka
 x1
 180000
+osobowka
 x5
 300000
+osobowka
 i8
 600000

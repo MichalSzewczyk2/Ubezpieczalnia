@@ -7,11 +7,12 @@ public class Main {
             Start rozpocznij = new Start();
 
             Ubezpieczyciel[] ub = rozpocznij.wczytajUbezpieczycieli("filename.txt");
+            MarkaPojazdu[] mr = rozpocznij.wczytajMarki("pojazdy.txt");
 
-            System.out.println( 223);
-            System.out.println( 0.5 * -1 * 0.0001);
-            System.out.println( 0 * -1 * 0.0001);
-
+            System.out.println( mr[0].getRodzaj(0));
+            System.out.println( mr[0].getNazwa());
+            System.out.println( mr[0].getModel(0));
+            System.out.println( mr[0].getWartoscModelu(0));
 
     }
 }

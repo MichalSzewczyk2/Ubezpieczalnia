@@ -31,5 +31,35 @@ public class Start {
         }
 
     }
+    public MarkaPojazdu[] wczytajMarki(String plik){
+        try{
+            File inFile = new File(plik);
+            Scanner czytaj = new Scanner(inFile);
+
+            int iloscMarek = Integer.parseInt(czytaj.nextLine());
+            MarkaPojazdu[] marki = new MarkaPojazdu[iloscMarek];
+
+            for(int i = 0; i < iloscMarek; i++){
+
+                String marka = czytaj.nextLine();
+                int ileModeli = Integer.parseInt(czytaj.nextLine());
+                String[] rodzaje = new String[ileModeli];
+                String[] modele = new String[ileModeli];
+                int[] wartosci = new int[ileModeli];
+
+                for (int n = 0; n < ileModeli; n++){
+                    rodzaje[n] = czytaj.nextLine();
+                    modele[n] = czytaj.nextLine();
+                    wartosci[n] = Integer.parseInt(czytaj.nextLine());
+                }
+                marki[i] = new MarkaPojazdu(rodzaje, marka, ileModeli, modele, wartosci);
+            }
+
+            return marki;
+        }catch (FileNotFoundException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
 
 }

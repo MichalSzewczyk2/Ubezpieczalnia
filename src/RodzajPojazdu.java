@@ -22,7 +22,7 @@ public class RodzajPojazdu {
 
 
     }
-    public void wczytajMarki (String plik){
+   /* public void wczytajMarki (String plik){
         try{
             File inFile = new File(plik);
             Scanner czytaj = new Scanner(inFile);
@@ -31,7 +31,7 @@ public class RodzajPojazdu {
             marki = new MarkaPojazdu[iloscMarek];
 
             for(int i = 0; i < iloscMarek; i++){
-
+                String rodzaje = czytaj.nextLine();
                 String marka = czytaj.nextLine();
                 int ileModeli = Integer.parseInt(czytaj.nextLine());
                 String[] modele = new String[ileModeli];
@@ -41,7 +41,7 @@ public class RodzajPojazdu {
                     modele[n] = czytaj.nextLine();
                     wartosci[n] = Integer.parseInt(czytaj.nextLine());
                 }
-                marki[i] = new MarkaPojazdu(marka, ileModeli, modele, wartosci);
+                marki[i] = new MarkaPojazdu(rodzaje, marka, ileModeli, modele, wartosci);
             }
 
 
@@ -49,6 +49,8 @@ public class RodzajPojazdu {
             e.printStackTrace();
         }
     }
+
+    */
     public static int getIloscRodzajow() {
         return iloscRodzajow;
     }
