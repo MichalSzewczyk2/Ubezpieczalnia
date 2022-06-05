@@ -20,5 +20,8 @@ public class Main {
             int rok = Integer.parseInt(sd.format(now));
             System.out.println(rok);
 
+            Pojazd pojazd = new Pojazd();
+            MyFrame frame = new MyFrame(mr, pojazd);
+
     }
 }

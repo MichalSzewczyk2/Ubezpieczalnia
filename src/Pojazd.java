@@ -58,4 +58,32 @@ public class Pojazd {
     public int getStopien_uszkodzen() {
         return stopien_uszkodzen;
     }
+
+    public void setRok_produkcji(int rok_produkcji) {
+        this.rok_produkcji = rok_produkcji;
+    }
+
+    public void setMarka(String marka) {
+        this.marka = marka;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public void setRodzaj_paliwa(String rodzaj_paliwa) {
+        this.rodzaj_paliwa = rodzaj_paliwa;
+    }
+
+    public void setPojemnosc_silnika(double pojemnosc_silnika) {
+        this.pojemnosc_silnika = pojemnosc_silnika;
+    }
+
+    public void setPrzebieg(int przebieg) {
+        this.przebieg = przebieg;
+    }
+
+    public void setStopien_uszkodzen(int stopien_uszkodzen) {
+        this.stopien_uszkodzen = stopien_uszkodzen;
+    }
 }
