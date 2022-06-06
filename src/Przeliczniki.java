@@ -1,16 +1,19 @@
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 public class Przeliczniki {
 
-    private double[] rodzajeP;//0-baza, 1-rokProdukcji, 2-rodzajPaliwa, 3-pojemnoscSilnika, 4-przebieg, 5-uszkodzenia
+    private double[] przeliczniki;//0-przelicznik dzieci, 1-przelicznik wieku, 2-przelicznik stan cywilny, 3-przelicznik przebieg
     private double[] przelicznikiRodzaji;//0-osobowka, 1-motor, 2-ciezarowka, 4-autobus, 5-ciagnik rolniczy
+    private double[] przelicznikiWojewodztw;
+    private double[] przelicznikiSposobUzytkowania;// 0-na ulicy, 1-we wspolnym garazu, 2-teren posesji, 3-w indywidualnym garazu, 4-na parkingu strzezonym, 5-inne miejsce niestrzezone
 
-    public Przeliczniki(double[] przeliczniki, double[] przelicznikiRodzaji){
-        this.rodzajeP = new double[przeliczniki.length];
+    public Przeliczniki(double[] przeliczniki, double[] przelicznikiRodzaji, double[] przelicznikiWojewodztw, double[] przelicznikiSposobUzytkowania){
+        this.przeliczniki = new double[przeliczniki.length];
         this.przelicznikiRodzaji = new double[przelicznikiRodzaji.length];
-        System.arraycopy(przeliczniki, 0, this.rodzajeP, 0, przeliczniki.length);
+        System.arraycopy(przeliczniki, 0, this.przeliczniki, 0, przeliczniki.length);
         System.arraycopy(przelicznikiRodzaji, 0, this.przelicznikiRodzaji,0,przelicznikiRodzaji.length);
+        this.przelicznikiWojewodztw = new double[16];
+        System.arraycopy(przelicznikiWojewodztw, 0, this.przelicznikiWojewodztw, 0, 16);
+        this.przelicznikiSposobUzytkowania = new double[6];
+        System.arraycopy(przelicznikiSposobUzytkowania, 0, this.przelicznikiSposobUzytkowania, 0, 6);
     }
 
     public String rodzajZModelu (Pojazd auto, MarkaPojazdu[] marki){
@@ -56,53 +59,51 @@ public class Przeliczniki {
         return 0;
     }
 
-   /* public double przelicznikZModelu(Pojazd auto) {
-        for (int i = 0; i < nazwyModeli.length; i++){
-            if(auto.getModel().equals(nazwyModeli[i])){
-                return przelicznikiModeli[i];
-            }
-        }
-        return 0.0;
+
+    public int wynikZWieku (Klient klient){
+        int wiek = klient.getWiek();
+        if(wiek<25)return 250;
+        else if(25 < wiek && wiek < 30)return 200;
+        else if(30 < wiek && wiek < 35)return 150;
+        else if(35 < wiek && wiek < 40)return 100;
+        else if(40 < wiek && wiek < 45)return 75;
+        else return 50;
     }
-*/
-    public double liczUbezpieczenie(Pojazd auto, MarkaPojazdu[] marki){
 
-        Date now = new Date();
-        SimpleDateFormat sd = new SimpleDateFormat("yyyy");
-        int rok = Integer.parseInt(sd.format(now));
-        int orginalnaWartosc = wartoscZModelu(auto, marki);
+    public int wynikZCzasuPrawaJazdy (Klient klient){
 
-        double obecnaWartosc = orginalnaWartosc - orginalnaWartosc * 0.02 *orginalnaWartosc/(rok-auto.getRok_produkcji()) ;
+        int czas = klient.getCzasPrawaJazdy();
 
-        double ubezpieczenie = obecnaWartosc * rodzajeP[0];//baza
-
-        ubezpieczenie += przelicznikZRodzaju(rodzajZModelu(auto, marki)) * obecnaWartosc * 0.0001;//rodzaj auta
-
-        ubezpieczenie += (auto.getRok_produkcji()-1960)*20*rodzajeP[1];//rocznik
-
-        if(auto.getRodzaj_paliwa().equals("benzyna")){//rodzaj paliwa
-            ubezpieczenie += 20 * rodzajeP[2];
-        }else{
-            ubezpieczenie += 20 * rodzajeP[2]/2;
+        if( czas < 20 ){
+            return 200 - czas * 10 * (-1);
         }
+        else return 20;
+    }
 
-        if(auto.getPojemnosc_silnika()<2.0){//pojemnosc silnika
-            ubezpieczenie += 2 * rodzajeP[3];
-        }else if(auto.getPojemnosc_silnika() > 2.0 && auto.getPojemnosc_silnika() < 5.0){
-            ubezpieczenie += 4 * rodzajeP[3];
-        }else{
-            ubezpieczenie += 8 * rodzajeP[3];
+    public int wynikZCzasuOC (Klient klient){
+        int czas = klient.czasPolisyOC;
+        if (czas < 10){
+            return 1000 - czas *100 * (-1);
         }
+        else  return 50;
+    }
 
-        ubezpieczenie += auto.getPrzebieg() * -1 * 0.0001 * rodzajeP[4] /2;//przebieg
+    public double liczOC(Pojazd auto, MarkaPojazdu[] marki, Klient klient){
 
-        ubezpieczenie += auto.getStopien_uszkodzen() * obecnaWartosc * -1 * rodzajeP[5];
+        double ubezpieczenie = 0.0;
+        ubezpieczenie += auto.getPojemnosc_silnika() * 100;
+        ubezpieczenie += auto.getWiekPojazdu() * 10;
+        ubezpieczenie += przelicznikiWojewodztw[klient.nrWojewodztwa];
+        if(klient.czyDzieci) ubezpieczenie +=  przeliczniki[0];
+        ubezpieczenie += wynikZWieku(klient) * przeliczniki[1];
+        if(klient.stanCywil == 2) ubezpieczenie += przeliczniki[2];
+        ubezpieczenie += wynikZCzasuPrawaJazdy(klient);
+        ubezpieczenie += przelicznikiSposobUzytkowania[klient.sposobUzytkowania];
+        ubezpieczenie += wynikZCzasuOC(klient);
+        ubezpieczenie += auto.getPrzebieg() * przeliczniki[3];
+        ubezpieczenie = ubezpieczenie * przelicznikZRodzaju(auto.getModel());
 
         return ubezpieczenie;
     }
-
-
-
-
 
 }

@@ -1,0 +1,187 @@
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+public class Klient {
+    public enum rodzajeKierowcow{
+        PASAZER,
+        GLOWNY_KIEROWCA
+    }
+    public enum rodzajeStanowCywilnych{
+        KAWALER_PANNA,
+        ZONATY_ZAMEZNA,
+        WDOWIEC_WDOWA,
+        ROZWIEDZIONY_ROZWIEDZIONA,
+    }
+    public enum rodzajePlci{
+        KOBIETA,
+        MEZCZYZNA
+    }
+
+    long pesel;
+    String imie;
+    String nazwisko;
+    Date dataUrodzenia;
+    rodzajeKierowcow czyKierowca;
+    rodzajeStanowCywilnych stanCywilny;
+    rodzajePlci plec;
+    boolean czyDzieci;
+    Date dataOtrzymaniaPrawaJazdy;
+    int czasPolisyOC;
+    int kodPocztowy;
+    int nrWojewodztwa; // 0-15
+    int stanCywil;
+    int sposobUzytkowania; // 0-na ulicy, 1-we wspolnym garazu, 2-teren posesji, 3-w indywidualnym garazu, 4-na parkingu strzezonym, 5-inne miejsce niestrzezone
+
+
+
+    public Klient() {
+    }
+
+    public Klient(String txt) {
+        fromString(txt);
+    }
+
+    public Klient(long pesel, String imie, String nazwisko, Date dataUrodzenia,
+                  rodzajeKierowcow czyKierowca, rodzajeStanowCywilnych stanCywilny, rodzajePlci plec,
+                  boolean czyDzieci, Date dataOtrzymaniaPrawaJazdy,int kodPocztowy, int nrWojewodztwa, int stanCywil, int sposobUzytkowania) {
+        this.pesel = pesel;
+        this.imie = imie;
+        this.nazwisko = nazwisko;
+        this.dataUrodzenia = dataUrodzenia;
+        this.czyKierowca = czyKierowca;
+        this.stanCywilny = stanCywilny;
+        this.plec = plec;
+        this.czyDzieci = czyDzieci;
+        this.dataOtrzymaniaPrawaJazdy = dataOtrzymaniaPrawaJazdy;
+        this.kodPocztowy = kodPocztowy;
+        this.nrWojewodztwa = nrWojewodztwa;
+        this.stanCywil = stanCywil;
+        this.sposobUzytkowania = sposobUzytkowania;
+    }
+
+
+
+    public void fromString(String txt)
+    {
+        String[] dane = txt.trim().split("\t");
+        if(dane.length != 10)
+            throw new IllegalArgumentException("Argument funkcji jest niepoprawny");
+
+        try {
+            pesel = Long.parseLong(dane[0]);
+            imie = dane[1];
+            nazwisko = dane[2];
+            dataUrodzenia =  new SimpleDateFormat("dd-M-yyyy").parse(dane[3]);
+            czyKierowca = rodzajeKierowcow.valueOf(dane[4]);
+            stanCywilny = rodzajeStanowCywilnych.valueOf(dane[5]);
+            plec = rodzajePlci.valueOf(dane[6]);
+            //czyDzieci = Integer.parseInt(dane[7]);
+            dataOtrzymaniaPrawaJazdy = new SimpleDateFormat("dd-M-yyyy").parse(dane[8]);
+            kodPocztowy = Integer.parseInt(dane[9]);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public String toString() {
+        return pesel + "\t" +
+                imie + "\t" +
+                nazwisko + "\t" +
+                dataUrodzenia + "\t" +
+                czyKierowca + "\t" +
+                stanCywilny + "\t" +
+                plec + "\t" +
+                czyDzieci + "\t" +
+                dataOtrzymaniaPrawaJazdy + "\t" +
+                kodPocztowy;
+    }
+
+
+    public int getWiek(){
+        Date now = new Date();
+        SimpleDateFormat sd = new SimpleDateFormat("yyyy");
+        int rok = Integer.parseInt(sd.format(now));
+        int rokUrodzenia = Integer.parseInt(sd.format(dataUrodzenia));
+        return rok - rokUrodzenia;
+    }
+    public int getCzasPrawaJazdy(){
+        Date now = new Date();
+        SimpleDateFormat sd = new SimpleDateFormat("yyyy");
+        int rok = Integer.parseInt(sd.format(now));
+        int rokPrawaJazdy = Integer.parseInt(sd.format(dataOtrzymaniaPrawaJazdy));
+        return rok - rokPrawaJazdy;
+    }
+    public long getPesel() {
+        return pesel;
+    }
+
+    public void setPesel(long pesel) {
+        this.pesel = pesel;
+    }
+
+    public String getImie() {
+        return imie;
+    }
+
+    public void setImie(String imie) {
+        this.imie = imie;
+    }
+
+    public String getNazwisko() {
+        return nazwisko;
+    }
+
+    public void setNazwisko(String nazwisko) {
+        this.nazwisko = nazwisko;
+    }
+
+    public Date getDataUrodzenia() {
+        return dataUrodzenia;
+    }
+
+    public void setDataUrodzenia(Date dataUrodzenia) {
+        this.dataUrodzenia = dataUrodzenia;
+    }
+
+    public rodzajeKierowcow getCzyKierowca() {
+        return czyKierowca;
+    }
+
+    public void setCzyKierowca(rodzajeKierowcow czyKierowca) {
+        this.czyKierowca = czyKierowca;
+    }
+
+    public rodzajeStanowCywilnych getStanCywilny() {
+        return stanCywilny;
+    }
+
+    public void setStanCywilny(rodzajeStanowCywilnych stanCywilny) {
+        this.stanCywilny = stanCywilny;
+    }
+
+    public rodzajePlci getPlec() {
+        return plec;
+    }
+
+    public void setPlec(rodzajePlci plec) {
+        this.plec = plec;
+    }
+
+    public Date getDataOtrzymaniaPrawaJazdy() {
+        return dataOtrzymaniaPrawaJazdy;
+    }
+
+    public void setDataOtrzymaniaPrawaJazdy(Date dataOtrzymaniaPrawaJazdy) {
+        this.dataOtrzymaniaPrawaJazdy = dataOtrzymaniaPrawaJazdy;
+    }
+
+    public int getKodPocztowy() {
+        return kodPocztowy;
+    }
+
+    public void setKodPocztowy(int kodPocztowy) {
+        this.kodPocztowy = kodPocztowy;
+    }
+
+}

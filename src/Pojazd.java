@@ -1,7 +1,10 @@
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Pojazd {
 
 
-    private int rok_produkcji;
+    private Date rok_produkcji;
     private String marka;
     private String model;
     private String rodzaj_paliwa;
@@ -11,7 +14,6 @@ public class Pojazd {
 
     public Pojazd() {
 
-        this.rok_produkcji = 0;
         this.marka = "";
         this.model = "";
         this.rodzaj_paliwa = " ";
@@ -20,7 +22,7 @@ public class Pojazd {
         this.stopien_uszkodzen = 0;
     }
 
-    public Pojazd(int rok_produkcji, String marka, String model, String rodzaj_paliwa, double pojemnosc_silnika, int przebieg, int stopien_uszkodzen) {
+    public Pojazd(Date rok_produkcji, String marka, String model, String rodzaj_paliwa, double pojemnosc_silnika, int przebieg, int stopien_uszkodzen) {
 
         this.rok_produkcji = rok_produkcji;
         this.marka = marka;
@@ -31,7 +33,15 @@ public class Pojazd {
         this.stopien_uszkodzen = stopien_uszkodzen;
     }
 
-    public int getRok_produkcji() {
+    public int getWiekPojazdu(){
+        Date now = new Date();
+        SimpleDateFormat sd = new SimpleDateFormat("yyyy");
+        int rok = Integer.parseInt(sd.format(now));
+        int rokUrodzenia = Integer.parseInt(sd.format(rok_produkcji));
+        return rok - rokUrodzenia;
+    }
+
+    public Date getRok_produkcji() {
         return rok_produkcji;
     }
 
@@ -59,7 +69,7 @@ public class Pojazd {
         return stopien_uszkodzen;
     }
 
-    public void setRok_produkcji(int rok_produkcji) {
+    public void setRok_produkcji(Date rok_produkcji) {
         this.rok_produkcji = rok_produkcji;
     }
 
