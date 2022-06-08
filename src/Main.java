@@ -16,6 +16,7 @@ public class Main {
 
 
             System.out.println(ub[0].getPrzeliczniki().liczOC(auto,mr,klient));
+            System.out.println(ub[0].getPrzeliczniki().liczAC(auto, mr, klient,false));
 
 
             System.out.println( ub[0]);

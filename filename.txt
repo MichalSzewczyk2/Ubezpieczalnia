@@ -2,10 +2,13 @@
 PZU
 Warszawa ul.Złota 4
 pzu.ubezpieczenia@poczta.pl
+12
 10.0
 1.0
 5.0
 0.1
+1.1
+1.1
 0.40
 0.45
 0.50
@@ -36,10 +39,13 @@ pzu.ubezpieczenia@poczta.pl
 AXA
 Warszawa ul.Srebrna 41
 axa.ubezpieczenia@poczta.pl
+14
 10.0
 1.0
 5.0
 0.1
+1.2
+1.2
 1.02
 1.05
 1.1

@@ -18,11 +18,12 @@ public class Start {
                 String nazwa = czytaj.nextLine();
                 String adres = czytaj.nextLine();
                 String kontakt = czytaj.nextLine();
-                double[] p0 = new double[4];
+                int maxWiekAC = Integer.parseInt(czytaj.nextLine());
+                double[] p0 = new double[6];
                 double[] p1 = new double[5];
                 double[] p2 = new double[16];
                 double[] p3 = new double[6];
-                for (int j = 0; j < 4; j++) {
+                for (int j = 0; j < 6; j++) {
                     p0[j] = Double.parseDouble(czytaj.nextLine());
                 }
                 for (int j = 0; j < 5; j++) {
@@ -34,7 +35,7 @@ public class Start {
                 for (int j = 0; j < 6; j++) {
                     p3[j] = Double.parseDouble(czytaj.nextLine());
                 }
-                Ubezpieczyciel ub = new Ubezpieczyciel(nazwa, adres, kontakt, p0, p1, p2, p3);
+                Ubezpieczyciel ub = new Ubezpieczyciel(nazwa, adres, kontakt, maxWiekAC, p0, p1, p2, p3);
                 ubezpieczyciele[i] = ub;
             }
             return ubezpieczyciele;
