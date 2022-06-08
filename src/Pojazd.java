@@ -96,4 +96,17 @@ public class Pojazd {
     public void setStopien_uszkodzen(int stopien_uszkodzen) {
         this.stopien_uszkodzen = stopien_uszkodzen;
     }
+
+    @Override
+    public String toString() {
+        return "Pojazd{" +
+                "rok_produkcji=" + rok_produkcji +
+                ", marka='" + marka + '\'' +
+                ", model='" + model + '\'' +
+                ", rodzaj_paliwa='" + rodzaj_paliwa + '\'' +
+                ", pojemnosc_silnika=" + pojemnosc_silnika +
+                ", przebieg=" + przebieg +
+                ", stopien_uszkodzen=" + stopien_uszkodzen +
+                '}';
+    }
 }

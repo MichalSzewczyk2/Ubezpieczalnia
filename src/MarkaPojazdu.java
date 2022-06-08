@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class MarkaPojazdu{
 
     private String[] rodzaje;
@@ -12,6 +14,17 @@ public class MarkaPojazdu{
         this.iloscModeli = iloscModeli;
         this.nazwyModeli = nazwyModeli;
         this.wartoscModeli = wartoscModeli;
+    }
+
+    @Override
+    public String toString() {
+        return "MarkaPojazdu{" +
+                "rodzaje=" + Arrays.toString(rodzaje) +
+                ", nazwa='" + nazwa + '\'' +
+                ", iloscModeli=" + iloscModeli +
+                ", nazwyModeli=" + Arrays.toString(nazwyModeli) +
+                ", wartoscModeli=" + Arrays.toString(wartoscModeli) +
+                '}';
     }
 
     public String[] getRodzaje() {

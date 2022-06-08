@@ -1,28 +1,41 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Scanner;
 
 public class Start {
 
-    public Ubezpieczyciel[] wczytajUbezpieczycieli(String filename){
+    public Ubezpieczyciel[] wczytajUbezpieczycieli(String plik){
         try{
-            File inFile = new File(filename);
+            File inFile = new File(plik);
             Scanner czytaj = new Scanner(inFile);
             int liczbaubezpieczycieli = Integer.parseInt(czytaj.nextLine());
             Ubezpieczyciel[] ubezpieczyciele = new Ubezpieczyciel[liczbaubezpieczycieli];
 
-
-            int i = 0;
-
-            while (czytaj.hasNextLine()){
+            for (int i = 0; i < liczbaubezpieczycieli; i++) {
                 String nazwa = czytaj.nextLine();
                 String adres = czytaj.nextLine();
                 String kontakt = czytaj.nextLine();
-
-                Ubezpieczyciel ub = new Ubezpieczyciel(nazwa, adres, kontakt);
+                double[] p0 = new double[4];
+                double[] p1 = new double[5];
+                double[] p2 = new double[16];
+                double[] p3 = new double[6];
+                for (int j = 0; j < 4; j++) {
+                    p0[j] = Double.parseDouble(czytaj.nextLine());
+                }
+                for (int j = 0; j < 5; j++) {
+                    p1[j] = Double.parseDouble(czytaj.nextLine());
+                }
+                for (int j = 0; j < 16; j++) {
+                    p2[j] = Double.parseDouble(czytaj.nextLine());
+                }
+                for (int j = 0; j < 6; j++) {
+                    p3[j] = Double.parseDouble(czytaj.nextLine());
+                }
+                Ubezpieczyciel ub = new Ubezpieczyciel(nazwa, adres, kontakt, p0, p1, p2, p3);
                 ubezpieczyciele[i] = ub;
-                i++;
             }
             return ubezpieczyciele;
         } catch (FileNotFoundException e) {
@@ -60,6 +73,42 @@ public class Start {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public Klient wczytajKlient (String plik){
+        try{
+            File inFile = new File(plik);
+            Scanner czytaj = new Scanner(inFile);
+
+            Klient k = new Klient();
+
+            k.setPesel(Long.parseLong(czytaj.nextLine()));
+            k.setImie(czytaj.nextLine());
+            k.setNazwisko(czytaj.nextLine());
+            k.setDataUrodzenia(new SimpleDateFormat("yyyy-MM-dd").parse(czytaj.nextLine()));
+            k.setCzyKierowca(Klient.rodzajeKierowcow.valueOf(czytaj.nextLine()));
+            k.setStanCywilny(Klient.rodzajeStanowCywilnych.valueOf(czytaj.nextLine()));
+            k.setPlec(Klient.rodzajePlci.valueOf(czytaj.nextLine()));
+            if(Integer.parseInt(czytaj.nextLine()) ==1 ){
+                k.setCzyDzieci(true);
+            }else k.setCzyDzieci(false);
+            k.setDataOtrzymaniaPrawaJazdy(new SimpleDateFormat("yyyy-MM-dd").parse(czytaj.nextLine()));
+            k.setKodPocztowy(Integer.parseInt(czytaj.nextLine()));
+            k.setCzasPolisyOC(Integer.parseInt(czytaj.nextLine()));
+            k.setNrWojewodztwa(Integer.parseInt(czytaj.nextLine()));
+            k.setStanCywil(Integer.parseInt(czytaj.nextLine()));
+            k.setSposobUzytkowania(Integer.parseInt(czytaj.nextLine()));
+
+            return k;
+
+        }catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+
     }
 
 }

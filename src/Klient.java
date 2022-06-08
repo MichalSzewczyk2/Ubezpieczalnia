@@ -1,5 +1,6 @@
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 
 public class Klient {
@@ -27,8 +28,8 @@ public class Klient {
     rodzajePlci plec;
     boolean czyDzieci;
     Date dataOtrzymaniaPrawaJazdy;
-    int czasPolisyOC;
     int kodPocztowy;
+    int czasPolisyOC;
     int nrWojewodztwa; // 0-15
     int stanCywil;
     int sposobUzytkowania; // 0-na ulicy, 1-we wspolnym garazu, 2-teren posesji, 3-w indywidualnym garazu, 4-na parkingu strzezonym, 5-inne miejsce niestrzezone
@@ -64,21 +65,30 @@ public class Klient {
 
     public void fromString(String txt)
     {
-        String[] dane = txt.trim().split("\t");
-        if(dane.length != 10)
+
+
+        String[] dane = txt.trim().split("\n");
+        System.out.println(Arrays.toString(dane));
+        if(dane.length != 14)
             throw new IllegalArgumentException("Argument funkcji jest niepoprawny");
 
         try {
             pesel = Long.parseLong(dane[0]);
             imie = dane[1];
             nazwisko = dane[2];
-            dataUrodzenia =  new SimpleDateFormat("dd-M-yyyy").parse(dane[3]);
+            dataUrodzenia =  new SimpleDateFormat("yyyy-MM-dd").parse(dane[3]);
             czyKierowca = rodzajeKierowcow.valueOf(dane[4]);
             stanCywilny = rodzajeStanowCywilnych.valueOf(dane[5]);
             plec = rodzajePlci.valueOf(dane[6]);
-            //czyDzieci = Integer.parseInt(dane[7]);
-            dataOtrzymaniaPrawaJazdy = new SimpleDateFormat("dd-M-yyyy").parse(dane[8]);
+            if(Integer.parseInt(dane[7]) ==1 ){
+                czyDzieci = true;
+            }else czyDzieci = false;
+            dataOtrzymaniaPrawaJazdy = new SimpleDateFormat("yyyy-MM-dd").parse(dane[8]);
             kodPocztowy = Integer.parseInt(dane[9]);
+            czasPolisyOC = Integer.parseInt(dane[10]);
+            nrWojewodztwa = Integer.parseInt(dane[11]);
+            stanCywil = Integer.parseInt(dane[12]);
+            sposobUzytkowania = Integer.parseInt(dane[13]);
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
@@ -184,4 +194,43 @@ public class Klient {
         this.kodPocztowy = kodPocztowy;
     }
 
+    public boolean isCzyDzieci() {
+        return czyDzieci;
+    }
+
+    public void setCzyDzieci(boolean czyDzieci) {
+        this.czyDzieci = czyDzieci;
+    }
+
+    public int getCzasPolisyOC() {
+        return czasPolisyOC;
+    }
+
+    public void setCzasPolisyOC(int czasPolisyOC) {
+        this.czasPolisyOC = czasPolisyOC;
+    }
+
+    public int getNrWojewodztwa() {
+        return nrWojewodztwa;
+    }
+
+    public void setNrWojewodztwa(int nrWojewodztwa) {
+        this.nrWojewodztwa = nrWojewodztwa;
+    }
+
+    public int getStanCywil() {
+        return stanCywil;
+    }
+
+    public void setStanCywil(int stanCywil) {
+        this.stanCywil = stanCywil;
+    }
+
+    public int getSposobUzytkowania() {
+        return sposobUzytkowania;
+    }
+
+    public void setSposobUzytkowania(int sposobUzytkowania) {
+        this.sposobUzytkowania = sposobUzytkowania;
+    }
 }
