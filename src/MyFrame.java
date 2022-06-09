@@ -1,4 +1,6 @@
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -7,62 +9,88 @@ import java.text.SimpleDateFormat;
 
 public class MyFrame extends JFrame implements ActionListener{
 
+    private Start start;
+    private JTextField potwierdzenie = new JTextField();
 
 
+    private void widokStart(){
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    private void widokStart(MarkaPojazdu[] marki, Pojazd pojazd){
         JButton wprowadzDaneP = new JButton("Wprowadz dane");
-        wprowadzDaneP.setBounds(175, 180,150,50);
-        wprowadzDaneP.addActionListener(e -> wprowadzKlient(marki, pojazd));
+        wprowadzDaneP.setBounds(373, 180,150,50);
+
+
+        wprowadzDaneP.addActionListener(e -> wprowadzKlient());
         JButton wczytajDaneP = new JButton("Wczytaj dane");
-        wczytajDaneP.setBounds(175,255,150,50);
+        wczytajDaneP.setBounds(543,180,150,50);
         wczytajDaneP.addActionListener(e -> wczytajDaneKlienta());
         add(wprowadzDaneP);
         add(wczytajDaneP);
+
+
+
+    }
+
+    private void sprawdzWczytanieKlienta(String plik){
+
+
+        potwierdzenie.setBounds(638,185,200 ,30);
+        potwierdzenie.setBackground(new Color(255,255,255));
+        potwierdzenie.setBorder(new LineBorder(Color.white));
+        potwierdzenie.setEditable(false);
+        if (plik.equals("")){
+            potwierdzenie.setText("Nie udało się wczytać klienta!");
+            System.out.println("Nie wczytano klienta 1");
+        }
+        start.wczytajKlient(plik);
+        if(start.getKlient() != null && start.getKlient().czyKompletny()){
+            potwierdzenie.setText("Udało się wczytać klienta!");
+            System.out.println("Wczytano klienta");
+        }else {
+            potwierdzenie.setText("Nie udało się wczytać klienta!");
+            System.out.println("Nie wczytano klienta 2");
+        }
+        add(potwierdzenie);
+        repaint();
+
     }
 
     private void wczytajDaneKlienta(){
+        getContentPane().removeAll();
+
         JTextField nazwaPliku = new JTextField();
         JButton dodajNazwe = new JButton("Dodaj");
-        dodajNazwe.addActionListener(e -> {
-            try {
-                policz(nazwaPliku.getText());
-            } catch (ParseException ex) {
-                ex.printStackTrace();
-            }
-        });
-        dodajNazwe.setBounds(280, 315, 80,30);
-        nazwaPliku.setBounds(175, 310,100, 40);
+
+        JButton liczOC = new JButton("Oblicz OC");
+        JButton liczAC = new JButton("Oblicz AC");
+        liczOC.setBounds(373, 300,150,50);
+        liczAC.setBounds(543,300,150,50);
+        liczOC.addActionListener(e -> policz(true));
+        liczAC.addActionListener(e -> policz(false));
+
+        dodajNazwe.addActionListener(e -> sprawdzWczytanieKlienta(nazwaPliku.getText()));
+        nazwaPliku.setBounds(438, 180,100, 40);
+        dodajNazwe.setBounds(548, 185, 80,30);
         nazwaPliku.setVisible(true);
         nazwaPliku.setPreferredSize(new Dimension(100,40));
         System.out.println("Dzilam");
+
+
+        revalidate();
+        repaint();
+        add(liczOC);
+        add(liczAC);
         add(nazwaPliku);
         add(dodajNazwe);
     }
 
-    public void wprowadzKlient(MarkaPojazdu[] marki, Pojazd pojazd){
+    public void wprowadzKlient(){
 
-        removeAll();
+        getContentPane().removeAll();
 
-        String[] s = new String[marki.length];
-        for(int i = 0; i < marki.length; i++){
-            s[i] = marki[i].getNazwa();
+        String[] s = new String[start.getMarki().length];
+        for(int i = 0; i < start.getMarki().length; i++){
+            s[i] = start.getMarki()[i].getNazwa();
         }
         JComboBox listaMarek = new JComboBox(s);
         listaMarek.setBounds(50, 20, 80, 40);
@@ -72,7 +100,7 @@ public class MyFrame extends JFrame implements ActionListener{
 
         JComboBox listaModeli = new JComboBox();
         listaModeli.setBounds(50,80, 80,40);
-        setModelList(pojazd, marki[0].getNazwa(), marki, listaModeli);
+        setModelList(start.getMarki()[0].getNazwa(), listaModeli);
         add(listaModeli);
 
         JButton przycisk = new JButton();
@@ -81,13 +109,21 @@ public class MyFrame extends JFrame implements ActionListener{
 
         add(przycisk);
 
-        przycisk.addActionListener(e -> System.out.println(pojazd.getMarka()));
-        listaMarek.addActionListener(e -> this.setModelList(pojazd,((String) listaMarek.getSelectedItem()),marki, listaModeli));
+        przycisk.addActionListener(e -> System.out.println(start.getPojazd().getMarka()));
+        listaMarek.addActionListener(e -> this.setModelList(((String) listaMarek.getSelectedItem()), listaModeli));
+
+
+        revalidate();
+        repaint();
     }
 
 
-    public MyFrame(MarkaPojazdu[] marki, Pojazd pojazd){
-        Container frame = this;
+    public MyFrame(Start start){
+        this.start = start;
+        JLabel tytul = new JLabel("Porównywarka ubezpieczeń");
+        tytul.setBounds(283,10,500,30);
+        tytul.setFont(new Font("Arial",Font.BOLD, 30));
+        tytul.setHorizontalAlignment(JLabel.CENTER);
         //generujListeMarek(marki, pojazd);
         //generujListeModeli(marki, pojazd);
         //generujPrzycisk(pojazd);
@@ -99,40 +135,36 @@ public class MyFrame extends JFrame implements ActionListener{
         setResizable(false);
         setVisible(true);
 
-        widokStart(marki,pojazd);
+        add(tytul);
+        widokStart();
         setVisible(true);
 
     }
 
-    public void policz(String plikKlienta) throws ParseException {
-        Start rozpocznij = new Start();
+    public void policz(boolean ac_oc) {
 
 
+        JTextField wynik = new JTextField();
 
-        Ubezpieczyciel[] ub = rozpocznij.wczytajUbezpieczycieli("filename.txt");
-        MarkaPojazdu[] mr = rozpocznij.wczytajMarki("pojazdy.txt");
-        Klient klient = rozpocznij.wczytajKlient(plikKlienta);
-        Pojazd auto = new Pojazd(new SimpleDateFormat("yyyy-MM-dd").parse("2010-12-03"), "BMW", "seria 3", "diesel", 3.0, 150000, 0);
+        if(ac_oc){
+            wynik.setText(start.getUbezpieczyciel()[0].getPrzeliczniki().liczOC(start.getPojazd(),start.getMarki(),start.getKlient())+"");
+        }else wynik.setText((int)start.getUbezpieczyciel()[0].getPrzeliczniki().liczAC(start.getPojazd(),start.getMarki(),start.getKlient(), false)+"");
 
-
-        System.out.println(ub[0].getPrzeliczniki().liczOC(auto,mr,klient));
-        System.out.println(ub[0].getPrzeliczniki().liczAC(auto, mr, klient,false));
-
-        JTextField wynik = new JTextField(ub[0].getPrzeliczniki().liczOC(auto,mr,klient)+"");
-        wynik.setBounds(175,390, 100,20);
+        wynik.setBounds(483,390, 100,20);
         wynik.setEditable(false);
+        wynik.setHorizontalAlignment(JTextField.CENTER);
         add(wynik);
     }
 
-    public void setModelList(Pojazd pojazd, String marka, MarkaPojazdu[] marki, JComboBox listaModeli){
-        pojazd.setMarka(marka);
+    public void setModelList(String marka, JComboBox listaModeli){
+        start.getPojazd().setMarka(marka);
         var n = 0;
-        for (int i = 0; i < marki.length; i++) {
-            if(marki[i].getNazwa().equals(marka)){
+        for (int i = 0; i < start.getMarki().length; i++) {
+            if(start.getMarki()[i].getNazwa().equals(marka)){
                 n=i;
             }
         }
-        String[] s = marki[n].getNazwyModeli();
+        String[] s = start.getMarki()[n].getNazwyModeli();
         listaModeli.removeAllItems();
         for(String items: s){
             listaModeli.addItem(items);

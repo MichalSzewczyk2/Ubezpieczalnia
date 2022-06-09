@@ -107,6 +107,9 @@ public class Klient {
                 kodPocztowy;
     }
 
+    public boolean czyKompletny(){
+        return true;
+    }
 
     public int getWiek(){
         Date now = new Date();

@@ -7,6 +7,48 @@ import java.util.Scanner;
 
 public class Start {
 
+    private Ubezpieczyciel[] ubezpieczyciel;
+    private MarkaPojazdu[] marki;
+    private Klient klient;
+    private Pojazd pojazd;
+
+    public Start(String ubplik, String mrplik){
+        wczytajUbezpieczycieli(ubplik);
+        wczytajMarki(mrplik);
+    }
+
+    public Ubezpieczyciel[] getUbezpieczyciel() {
+        return ubezpieczyciel;
+    }
+
+    public void setUbezpieczyciel(Ubezpieczyciel[] ubezpieczyciel) {
+        this.ubezpieczyciel = ubezpieczyciel;
+    }
+
+    public MarkaPojazdu[] getMarki() {
+        return marki;
+    }
+
+    public Klient getKlient() {
+        return klient;
+    }
+
+    public void setKlient(Klient klient) {
+        this.klient = klient;
+    }
+
+    public Pojazd getPojazd() {
+        return pojazd;
+    }
+
+    public void setPojazd(Pojazd pojazd) {
+        this.pojazd = pojazd;
+    }
+
+    public void setMarki(MarkaPojazdu[] marki) {
+        this.marki = marki;
+    }
+
     public Ubezpieczyciel[] wczytajUbezpieczycieli(String plik){
         try{
             File inFile = new File(plik);
@@ -38,6 +80,7 @@ public class Start {
                 Ubezpieczyciel ub = new Ubezpieczyciel(nazwa, adres, kontakt, maxWiekAC, p0, p1, p2, p3);
                 ubezpieczyciele[i] = ub;
             }
+            this.ubezpieczyciel = ubezpieczyciele;
             return ubezpieczyciele;
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -68,7 +111,7 @@ public class Start {
                 }
                 marki[i] = new MarkaPojazdu(rodzaje, marka, ileModeli, modele, wartosci);
             }
-
+            this.marki = marki;
             return marki;
         }catch (FileNotFoundException e){
             e.printStackTrace();
@@ -99,6 +142,8 @@ public class Start {
             k.setNrWojewodztwa(Integer.parseInt(czytaj.nextLine()));
             k.setStanCywil(Integer.parseInt(czytaj.nextLine()));
             k.setSposobUzytkowania(Integer.parseInt(czytaj.nextLine()));
+
+            this.klient = k;
 
             return k;
 
