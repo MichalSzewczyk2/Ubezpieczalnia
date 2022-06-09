@@ -6,44 +6,35 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 public class MyFrame extends JFrame implements ActionListener{
-    JButton przycisk;
-    JComboBox listaMarek;
-    JComboBox listaModeli;
-    JButton wprowadzDaneP;
-    JButton wczytajDaneP;
 
-    private void generujListeMarek(MarkaPojazdu[] marki, Pojazd pojazd){
-        String[] s = new String[marki.length];
-        for(int i = 0; i < marki.length; i++){
-            s[i] = marki[i].getNazwa();
-        }
-        listaMarek = new JComboBox(s);
-        listaMarek.addActionListener(e -> this.setModelList(pojazd,((String) listaMarek.getSelectedItem()),marki));
-        listaMarek.setEditable(true);
-        this.add(listaMarek);
-    }
-    public void generujListeModeli(MarkaPojazdu[] marki, Pojazd pojazd){
-        listaModeli = new JComboBox();
-        setModelList(pojazd, marki[0].getNazwa(), marki);
-        this.add(listaModeli);
-    }
-    private void generujPrzycisk(Pojazd pojazd){
-        przycisk = new JButton();
-        przycisk.setBounds(0,0,100,100);
-        przycisk.setText("Drukuj");
-        przycisk.addActionListener(e -> System.out.println(pojazd.getMarka()));
-        this.add(przycisk);
-    }
 
-    private void widokStart(){
-        wprowadzDaneP = new JButton("Wprowadz dane");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    private void widokStart(MarkaPojazdu[] marki, Pojazd pojazd){
+        JButton wprowadzDaneP = new JButton("Wprowadz dane");
         wprowadzDaneP.setBounds(175, 180,150,50);
-        //wprowadzDaneP.addActionListener();
-        wczytajDaneP = new JButton("Wczytaj dane");
+        wprowadzDaneP.addActionListener(e -> wprowadzKlient(marki, pojazd));
+        JButton wczytajDaneP = new JButton("Wczytaj dane");
         wczytajDaneP.setBounds(175,255,150,50);
-        wczytajDaneP.addActionListener(this);
-        this.add(wprowadzDaneP);
-        this.add(wczytajDaneP);
+        wczytajDaneP.addActionListener(e -> wczytajDaneKlienta());
+        add(wprowadzDaneP);
+        add(wczytajDaneP);
     }
 
     private void wczytajDaneKlienta(){
@@ -61,25 +52,55 @@ public class MyFrame extends JFrame implements ActionListener{
         nazwaPliku.setVisible(true);
         nazwaPliku.setPreferredSize(new Dimension(100,40));
         System.out.println("Dzilam");
-        this.add(nazwaPliku);
-        this.add(dodajNazwe);
+        add(nazwaPliku);
+        add(dodajNazwe);
     }
 
-    public MyFrame(MarkaPojazdu[] marki, Pojazd pojazd){
+    public void wprowadzKlient(MarkaPojazdu[] marki, Pojazd pojazd){
 
+        removeAll();
+
+        String[] s = new String[marki.length];
+        for(int i = 0; i < marki.length; i++){
+            s[i] = marki[i].getNazwa();
+        }
+        JComboBox listaMarek = new JComboBox(s);
+        listaMarek.setBounds(50, 20, 80, 40);
+
+        listaMarek.setEditable(true);
+        add(listaMarek);
+
+        JComboBox listaModeli = new JComboBox();
+        listaModeli.setBounds(50,80, 80,40);
+        setModelList(pojazd, marki[0].getNazwa(), marki, listaModeli);
+        add(listaModeli);
+
+        JButton przycisk = new JButton();
+        przycisk.setBounds(50,140,80,40);
+        przycisk.setText("Drukuj");
+
+        add(przycisk);
+
+        przycisk.addActionListener(e -> System.out.println(pojazd.getMarka()));
+        listaMarek.addActionListener(e -> this.setModelList(pojazd,((String) listaMarek.getSelectedItem()),marki, listaModeli));
+    }
+
+
+    public MyFrame(MarkaPojazdu[] marki, Pojazd pojazd){
+        Container frame = this;
         //generujListeMarek(marki, pojazd);
         //generujListeModeli(marki, pojazd);
         //generujPrzycisk(pojazd);
 
-        this.setTitle("Ubezpieczenia");
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setLayout(null);
-        this.setSize(500,500);
-        this.setResizable(false);
-        this.setVisible(true);
+        setTitle("Ubezpieczenia");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(null);
+        setSize(1066,600);
+        setResizable(false);
+        setVisible(true);
 
-        widokStart();
-
+        widokStart(marki,pojazd);
+        setVisible(true);
 
     }
 
@@ -96,9 +117,14 @@ public class MyFrame extends JFrame implements ActionListener{
 
         System.out.println(ub[0].getPrzeliczniki().liczOC(auto,mr,klient));
         System.out.println(ub[0].getPrzeliczniki().liczAC(auto, mr, klient,false));
+
+        JTextField wynik = new JTextField(ub[0].getPrzeliczniki().liczOC(auto,mr,klient)+"");
+        wynik.setBounds(175,390, 100,20);
+        wynik.setEditable(false);
+        add(wynik);
     }
 
-    public void setModelList(Pojazd pojazd, String marka, MarkaPojazdu[] marki){
+    public void setModelList(Pojazd pojazd, String marka, MarkaPojazdu[] marki, JComboBox listaModeli){
         pojazd.setMarka(marka);
         var n = 0;
         for (int i = 0; i < marki.length; i++) {
@@ -115,14 +141,5 @@ public class MyFrame extends JFrame implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource()==listaMarek){
-
-        }
-        if(e.getSource()==przycisk){
-
-        }
-        if(e.getSource()==wczytajDaneP) {
-            wczytajDaneKlienta();
-        }
     }
 }
