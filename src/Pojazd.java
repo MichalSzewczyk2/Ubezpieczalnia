@@ -4,7 +4,7 @@ import java.util.Date;
 public class Pojazd {
 
 
-    private Date rok_produkcji;
+    private int rok_produkcji;
     private String marka;
     private String model;
     private String rodzaj_paliwa;
@@ -22,7 +22,7 @@ public class Pojazd {
         this.stopien_uszkodzen = 0;
     }
 
-    public Pojazd(Date rok_produkcji, String marka, String model, String rodzaj_paliwa, double pojemnosc_silnika, int przebieg, int stopien_uszkodzen) {
+    public Pojazd(int rok_produkcji, String marka, String model, String rodzaj_paliwa, double pojemnosc_silnika, int przebieg, int stopien_uszkodzen) {
 
         this.rok_produkcji = rok_produkcji;
         this.marka = marka;
@@ -37,11 +37,10 @@ public class Pojazd {
         Date now = new Date();
         SimpleDateFormat sd = new SimpleDateFormat("yyyy");
         int rok = Integer.parseInt(sd.format(now));
-        int rokUrodzenia = Integer.parseInt(sd.format(rok_produkcji));
-        return rok - rokUrodzenia;
+        return rok - this.rok_produkcji;
     }
 
-    public Date getRok_produkcji() {
+    public int getRok_produkcji() {
         return rok_produkcji;
     }
 
@@ -69,7 +68,7 @@ public class Pojazd {
         return stopien_uszkodzen;
     }
 
-    public void setRok_produkcji(Date rok_produkcji) {
+    public void setRok_produkcji(int rok_produkcji) {
         this.rok_produkcji = rok_produkcji;
     }
 
