@@ -12,6 +12,10 @@ public class MyFrame extends JFrame implements ActionListener{
 
     private Start start;
     private JTextField potwierdzenie = new JTextField();
+    boolean daneKlienta;
+    boolean danePojazdu;
+    boolean daneUbezpieczenia;
+
 
 
     private void widokStart(){
@@ -19,6 +23,7 @@ public class MyFrame extends JFrame implements ActionListener{
 
         JButton wprowadzDaneP = new JButton("Wprowadz dane");
         wprowadzDaneP.setBounds(373, 180,150,50);
+        wprowadzDaneP.setHorizontalAlignment(JButton.CENTER);
 
         wprowadzDaneP.addActionListener(e -> {
             wprowadzPojazd();
@@ -27,9 +32,70 @@ public class MyFrame extends JFrame implements ActionListener{
 
         JButton wczytajDaneP = new JButton("Wczytaj dane");
         wczytajDaneP.setBounds(543,180,150,50);
+        wczytajDaneP.setHorizontalAlignment(JButton.CENTER);
         wczytajDaneP.addActionListener(e -> wczytajDaneKlienta());
         add(wprowadzDaneP);
         add(wczytajDaneP);
+
+        JButton opcjeU = new JButton("Opcje ubezpieczenia");
+        opcjeU.setBounds(373,240,320,50);
+        opcjeU.setHorizontalAlignment(JButton.CENTER);
+        opcjeU.addActionListener(e -> opcjeUbezpieczenia());
+        add(opcjeU);
+
+
+        //Wskaźniki stanu
+        JLabel wskk = new JLabel("Dane klienta");
+        JLabel wskkkol = new JLabel();
+        JLabel wskp = new JLabel("Dane pojazdu");
+        JLabel wskpkol = new JLabel();
+        JLabel wsku = new JLabel("Dane ubezpieczenia");
+        JLabel wskukol = new JLabel();
+
+        wskk.setBounds(10,300,120,40);
+        wskkkol.setBounds(130,300,40,40);
+        wskp.setBounds(10,350,120,40);
+        wskpkol.setBounds(130,350,40,40);
+        wsku.setBounds(10,400,120,40);
+        wskukol.setBounds(130,400,40,40);
+
+        wskk.setHorizontalAlignment(JLabel.CENTER);
+        wskkkol.setHorizontalAlignment(JLabel.CENTER);
+        wskp.setHorizontalAlignment(JLabel.CENTER);
+        wskpkol.setHorizontalAlignment(JLabel.CENTER);
+        wsku.setHorizontalAlignment(JLabel.CENTER);
+        wskukol.setHorizontalAlignment(JLabel.CENTER);
+
+        wskk.setBorder(new LineBorder(new Color(0)));
+        wskkkol.setBorder(new LineBorder(new Color(0)));
+        wskp.setBorder(new LineBorder(new Color(0)));
+        wskpkol.setBorder(new LineBorder(new Color(0)));
+        wsku.setBorder(new LineBorder(new Color(0)));
+        wskukol.setBorder(new LineBorder(new Color(0)));
+
+        if(daneKlienta){
+            wskkkol.setText("OK");
+        }else wskkkol.setText("Błąd");
+        if(danePojazdu){
+            wskpkol.setText("OK");
+        }else wskpkol.setText("Błąd");
+        if(daneUbezpieczenia){
+            wskukol.setText("OK");
+        }else wskukol.setText("Błąd");
+
+        add(wskk);
+        add(wskkkol);
+        add(wskp);
+        add(wskpkol);
+        add(wsku);
+        add(wskukol);
+
+        //Tytuł strony
+        JLabel tytul = new JLabel("Porównywarka ubezpieczeń pojazdów");
+        tytul.setFont(new Font("Arial",Font.BOLD,30));
+        tytul.setBounds(50,30,1000,100);
+        tytul.setHorizontalAlignment(JLabel.CENTER);
+        add(tytul);
 
         revalidate();
         repaint();
@@ -51,6 +117,7 @@ public class MyFrame extends JFrame implements ActionListener{
         start.wczytajKlient(plik);
         if(start.getKlient() != null && start.getKlient().czyKompletny()){
             potwierdzenie.setText("Udało się wczytać klienta!");
+            daneKlienta = true;
             System.out.println("Wczytano klienta");
         }else {
             potwierdzenie.setText("Nie udało się wczytać klienta!");
@@ -64,13 +131,6 @@ public class MyFrame extends JFrame implements ActionListener{
     private void wczytajDaneKlienta(){
         getContentPane().removeAll();
 
-        JButton powrot = new JButton("Wróć");
-        powrot.setBounds(966,0,100,50);
-        powrot.setBackground(new Color(255,0,0));
-        powrot.setHorizontalAlignment(JButton.CENTER);
-        powrot.addActionListener(e -> widokStart());
-        add(powrot);
-
 
         JButton wybierzPlik = new JButton("Wybierz plik");
         wybierzPlik.setBounds(200,300,100,50);
@@ -82,6 +142,7 @@ public class MyFrame extends JFrame implements ActionListener{
 
             if(odpowiedz == JFileChooser.APPROVE_OPTION){
                 File plik = new File((wybierak.getSelectedFile().getAbsolutePath()));
+                daneKlienta = true;
                 start.wczytajKlient(plik.getName());
             }
         });
@@ -102,16 +163,88 @@ public class MyFrame extends JFrame implements ActionListener{
         nazwaPliku.setVisible(true);
         nazwaPliku.setPreferredSize(new Dimension(100,40));
 
+        //Przycisk powrotu
+        JButton powrot = new JButton("Wróć");
+        powrot.setBounds(985,0,100,50);
+        powrot.setBackground(new Color(255,0,0));
+        powrot.setHorizontalAlignment(JButton.CENTER);
+        powrot.addActionListener(e -> widokStart());
+        add(powrot);
+
         revalidate();
         repaint();
         add(liczOC);
         add(liczAC);
         add(nazwaPliku);
         add(dodajNazwe);
+
+        repaint();
     }
 
 
+    public void opcjeUbezpieczenia(){
 
+        getContentPane().removeAll();
+
+        //Tytuł strony
+        JLabel tytul = new JLabel("Wybierz opcje dotyczące ubezpieczenia");
+        tytul.setFont(new Font("Arial",Font.BOLD,30));
+        tytul.setBounds(50,30,1000,100);
+        tytul.setHorizontalAlignment(JLabel.CENTER);
+        add(tytul);
+
+        //Wybór rodzaju ubezpieczenia
+        JLabel ocL = new JLabel("OC");
+        JLabel acL = new JLabel("AC");
+        JLabel nwwL = new JLabel("NWW");
+        JLabel asisstanceL = new JLabel("Assistance");
+        ocL.setBounds(255,250,140,50);
+        acL.setBounds(405,250,140,50);
+        nwwL.setBounds(555,250,140,50);
+        asisstanceL.setBounds(705,250,140,50);
+        ocL.setHorizontalAlignment(JLabel.CENTER);
+        acL.setHorizontalAlignment(JLabel.CENTER);
+        nwwL.setHorizontalAlignment(JLabel.CENTER);
+        asisstanceL.setHorizontalAlignment(JLabel.CENTER);
+        ocL.setBorder(new LineBorder(new Color(0)));
+        acL.setBorder(new LineBorder(new Color(0)));
+        nwwL.setBorder(new LineBorder(new Color(0)));
+        asisstanceL.setBorder(new LineBorder(new Color(0)));
+        add(ocL);
+        add(acL);
+        add(nwwL);
+        add(asisstanceL);
+        JCheckBox ocC = new JCheckBox();
+        JCheckBox acC = new JCheckBox();
+        JCheckBox nwwC = new JCheckBox();
+        JCheckBox asisstanceC = new JCheckBox();
+        ocC.setBounds(255,310,140,50);
+        acC.setBounds(405,310,140,50);
+        nwwC.setBounds(555,310,140,50);
+        asisstanceC.setBounds(705,310,140,50);
+        ocC.setHorizontalAlignment(JCheckBox.CENTER);
+        acC.setHorizontalAlignment(JCheckBox.CENTER);
+        nwwC.setHorizontalAlignment(JCheckBox.CENTER);
+        asisstanceC.setHorizontalAlignment(JCheckBox.CENTER);
+        add(ocC);
+        add(acC);
+        add(nwwC);
+        add(asisstanceC);
+
+
+
+        //Przycisk powrotu
+        JButton powrot = new JButton("Wróć");
+        powrot.setBounds(985,0,100,50);
+        powrot.setBackground(new Color(255,0,0));
+        powrot.setHorizontalAlignment(JButton.CENTER);
+        powrot.addActionListener(e -> widokStart());
+        add(powrot);
+
+        revalidate();
+        repaint();
+
+    }
 
     public void wprowadzKlient(){
 
@@ -273,62 +406,68 @@ public class MyFrame extends JFrame implements ActionListener{
     }
 
     public void wprowadzPojazd(){
-
         getContentPane().removeAll();
+
+        JLabel tytul = new JLabel("Uzupełnij formularze");
+        tytul.setFont(new Font("Arial",Font.BOLD,30));
+        tytul.setBounds(0,30,600,100);
+        tytul.setHorizontalAlignment(JLabel.CENTER);
+        add(tytul);
+
 
         String[] s = new String[start.getMarki().length];
         for(int i = 0; i < start.getMarki().length; i++){
             s[i] = start.getMarki()[i].getNazwa();
         }
         JLabel marka = new JLabel("Wybierz markę pojazdu");
-        marka.setBounds(5,20,150, 40);
+        marka.setBounds(50,200,150, 40);
         marka.setHorizontalAlignment(JLabel.CENTER);
         add(marka);
         JComboBox listaMarek = new JComboBox<>(s);
-        listaMarek.setBounds(160, 20, 80, 40);
+        listaMarek.setBounds(210, 200, 80, 40);
         listaMarek.setEditable(false);
         add(listaMarek);
 
         JLabel model = new JLabel("Wybierz model pojazdu");
-        model.setBounds(5,80,150, 40);
+        model.setBounds(50,260,150, 40);
         model.setHorizontalAlignment(JLabel.CENTER);
         add(model);
         JComboBox listaModeli = new JComboBox<>();
-        listaModeli.setBounds(160,80, 80,40);
+        listaModeli.setBounds(210,260, 80,40);
         setModelList(start.getMarki()[0].getNazwa(), listaModeli);
         add(listaModeli);
 
         JLabel pojemnosc = new JLabel("Wpisz pojemnosc silnika");
-        pojemnosc.setBounds(5,140,150, 40);
+        pojemnosc.setBounds(50,320,150, 40);
         pojemnosc.setHorizontalAlignment(JLabel.CENTER);
         add(pojemnosc);
         JTextField pojemnoscSilnika = new JTextField();
-        pojemnoscSilnika.setBounds(160,140,80,40);
+        pojemnoscSilnika.setBounds(210,320,80,40);
         add(pojemnoscSilnika);
 
         JLabel rok = new JLabel("Wpisz rok produkcji");
-        rok.setBounds(5,200,150, 40);
+        rok.setBounds(50,380,150, 40);
         rok.setHorizontalAlignment(JLabel.CENTER);
         add(rok);
         JTextField rokProdukcji = new JTextField();
-        rokProdukcji.setBounds(160,200,80,40);
+        rokProdukcji.setBounds(210,380,80,40);
         add(rokProdukcji);
 
         JLabel przebieg = new JLabel("Wpisz przebig pojazdu");
-        przebieg.setBounds(5,260,150, 40);
+        przebieg.setBounds(50,440,150, 40);
         przebieg.setHorizontalAlignment(JLabel.CENTER);
         add(przebieg);
         JTextField przebiegPojazdu = new JTextField();
-        przebiegPojazdu.setBounds(160,260,80,40);
+        przebiegPojazdu.setBounds(210,440,80,40);
         add(przebiegPojazdu);
 
         JLabel paliwo = new JLabel("Wybierz rodzaj paliwa");
-        paliwo.setBounds(5,320,150, 40);
+        paliwo.setBounds(50,500,150, 40);
         paliwo.setHorizontalAlignment(JLabel.CENTER);
         add(paliwo);
         String[] paliwa = {"benzyna","diesel"};
         JComboBox rodzajPaliwa = new JComboBox<>(paliwa);
-        rodzajPaliwa.setBounds(160,320,80,40);
+        rodzajPaliwa.setBounds(210,500,80,40);
         rodzajPaliwa.setEditable(false);
         add(rodzajPaliwa);
 
@@ -337,14 +476,14 @@ public class MyFrame extends JFrame implements ActionListener{
 
         String[] uszkodzniaS = {"Obtarcie","Stłuczka","Szkoda całkowita"};
         JComboBox uszkodzenia = new JComboBox<>(uszkodzniaS);
-        uszkodzenia.setBounds(210,380,150,40);
+        uszkodzenia.setBounds(250,560,150,40);
 
 
         JLabel uszkodzeniabBox = new JLabel("Czy auto jest uszkodzone");
-        uszkodzeniabBox.setBounds(5,380,150,40);
+        uszkodzeniabBox.setBounds(50,560,150,40);
         add(uszkodzeniabBox);
         JCheckBox uszkodzeniaZaznacz = new JCheckBox();
-        uszkodzeniaZaznacz.setBounds(160,380,40,40);
+        uszkodzeniaZaznacz.setBounds(210,560,40,40);
         add(uszkodzeniaZaznacz);
         uszkodzeniaZaznacz.addActionListener(e -> {
             if(uszkodzeniaZaznacz.isSelected()){
@@ -358,17 +497,21 @@ public class MyFrame extends JFrame implements ActionListener{
 
 
         JButton upPojazd = new JButton("Dodaj dane");
-        upPojazd.setBounds(300,200,100,50);
+        upPojazd.setBounds(50,620,100,50);
         upPojazd.addActionListener(e -> aktualizujPojazd(listaMarek,listaModeli,rodzajPaliwa,pojemnoscSilnika,przebiegPojazdu,rokProdukcji,uszkodzenia));
         add(upPojazd);
 
         JButton przycisk = new JButton();
-        przycisk.setBounds(400,140,80,40);
+        przycisk.setBounds(50,680,80,40);
         przycisk.setText("Drukuj");
 
 
+        JButton lizcOC = new JButton("Oblicz oc");
+
+
+        //Przycisk powrotu
         JButton powrot = new JButton("Wróć");
-        powrot.setBounds(966,0,100,50);
+        powrot.setBounds(985,0,100,50);
         powrot.setHorizontalAlignment(JButton.CENTER);
         powrot.setBackground(new Color(255,0,0));
         powrot.addActionListener(e -> widokStart());
@@ -388,7 +531,9 @@ public class MyFrame extends JFrame implements ActionListener{
 
     public MyFrame(Start start){
         this.start = start;
-
+        this.daneKlienta = false;
+        this.danePojazdu = false;
+        this.daneUbezpieczenia = false;
 
         //JScrollPane scr = new JScrollPane(this,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         //add(scr);
@@ -397,20 +542,40 @@ public class MyFrame extends JFrame implements ActionListener{
         tytul.setBounds(283,10,500,30);
         tytul.setFont(new Font("Arial",Font.BOLD, 30));
         tytul.setHorizontalAlignment(JLabel.CENTER);
-        //generujListeMarek(marki, pojazd);
-        //generujListeModeli(marki, pojazd);
-        //generujPrzycisk(pojazd);
+        setBackground(new Color(255,255,255));
 
         setTitle("Ubezpieczenia");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(null);
-        setSize(1066,900);
+        setSize(1100,900);
         setResizable(false);
         setVisible(true);
 
         add(tytul);
         widokStart();
         setVisible(true);
+
+    }
+
+    public void pokazOferty(){
+
+        int liczbaOfert = start.getUbezpieczyciel().length;
+        for(int i = 0; i < liczbaOfert ; i++){
+
+            JTextField ubezpieczyciel = new JTextField();
+            ubezpieczyciel.setText(start.getUbezpieczyciel()[i].getNazwa());
+            ubezpieczyciel.setEditable(false);
+            ubezpieczyciel.setBounds(300,(100+i*50),100,40);
+            ubezpieczyciel.setHorizontalAlignment(JTextField.CENTER);
+            add(ubezpieczyciel);
+            JTextField kwota = new JTextField();
+            kwota.setText("50");
+            kwota.setEditable(false);
+            kwota.setBounds(410,(100+i*50),100,40);
+            kwota.setHorizontalAlignment(JTextField.CENTER);
+            add(kwota);
+
+        }
 
     }
 
@@ -453,6 +618,8 @@ public class MyFrame extends JFrame implements ActionListener{
         start.getKlient().setKodPocztowy(kodPocztowy);
         start.getKlient().setRokOtrzymaniaPrawaJazdy(Integer.parseInt(rokPrawaJazdy.getText()));
         start.getKlient().setSposobUzytkowania(sposobUzytkowania.getSelectedIndex());
+
+        daneKlienta = true;
     }
 
     public void aktualizujPojazd(JComboBox listaMarek, JComboBox listaModeli, JComboBox rodzajP, JTextField pojemnoscSilnika, JTextField przebiegPojazdu, JTextField rokProdukcjiPojazdu, JComboBox uszkodzenia){
