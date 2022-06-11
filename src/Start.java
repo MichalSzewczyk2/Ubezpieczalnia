@@ -10,6 +10,7 @@ public class Start {
     private MarkaPojazdu[] marki;
     private Klient klient;
     private Pojazd pojazd;
+    private Ubezpieczenie ubezpieczenie;
 
     public Start(String ubplik, String mrplik){
         wczytajUbezpieczycieli(ubplik);
@@ -46,6 +47,14 @@ public class Start {
 
     public void setMarki(MarkaPojazdu[] marki) {
         this.marki = marki;
+    }
+
+    public Ubezpieczenie getUbezpieczenie() {
+        return ubezpieczenie;
+    }
+
+    public void setUbezpieczenie(Ubezpieczenie ubezpieczenie) {
+        this.ubezpieczenie = ubezpieczenie;
     }
 
     public Ubezpieczyciel[] wczytajUbezpieczycieli(String plik){

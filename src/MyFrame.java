@@ -15,6 +15,7 @@ public class MyFrame extends JFrame implements ActionListener{
     boolean daneKlienta;
     boolean danePojazdu;
     boolean daneUbezpieczenia;
+    boolean[] opcjeUbezpieczenia;
 
 
 
@@ -22,26 +23,39 @@ public class MyFrame extends JFrame implements ActionListener{
         getContentPane().removeAll();
 
         JButton wprowadzDaneP = new JButton("Wprowadz dane");
-        wprowadzDaneP.setBounds(373, 180,150,50);
+        wprowadzDaneP.setBounds(373, 180,320,50);
         wprowadzDaneP.setHorizontalAlignment(JButton.CENTER);
-
         wprowadzDaneP.addActionListener(e -> {
             wprowadzPojazd();
             wprowadzKlient();
         });
+        add(wprowadzDaneP);
 
+        /*
         JButton wczytajDaneP = new JButton("Wczytaj dane");
         wczytajDaneP.setBounds(543,180,150,50);
         wczytajDaneP.setHorizontalAlignment(JButton.CENTER);
         wczytajDaneP.addActionListener(e -> wczytajDaneKlienta());
-        add(wprowadzDaneP);
         add(wczytajDaneP);
-
+        */
         JButton opcjeU = new JButton("Opcje ubezpieczenia");
         opcjeU.setBounds(373,240,320,50);
         opcjeU.setHorizontalAlignment(JButton.CENTER);
         opcjeU.addActionListener(e -> opcjeUbezpieczenia());
         add(opcjeU);
+
+        JButton porownajUbezpieczenia = new JButton("Porównaj ubezpieczenia");
+        porownajUbezpieczenia.setBounds(373, 300,320,50);
+        porownajUbezpieczenia.setHorizontalAlignment(JButton.CENTER);
+        porownajUbezpieczenia.addActionListener(e -> {
+            if(!danePojazdu || !daneKlienta || !daneUbezpieczenia){
+                komunikat("Brakuje danych!");
+            }else{
+                pokazOferty();
+            }
+
+        });
+        add(porownajUbezpieczenia);
 
 
         //Wskaźniki stanu
@@ -129,13 +143,21 @@ public class MyFrame extends JFrame implements ActionListener{
     }
 
     private void wczytajDaneKlienta(){
+
         getContentPane().removeAll();
 
+        //Tytuł strony
+        JLabel tytul = new JLabel("Wybierz pliki do wczytania");
+        tytul.setFont(new Font("Arial",Font.BOLD,30));
+        tytul.setBounds(50,30,1000,100);
+        tytul.setHorizontalAlignment(JLabel.CENTER);
+        add(tytul);
 
-        JButton wybierzPlik = new JButton("Wybierz plik");
-        wybierzPlik.setBounds(200,300,100,50);
-        add(wybierzPlik);
-        wybierzPlik.addActionListener(e -> {
+
+        JButton wybierzPlikKlienta = new JButton("Wybierz plik klienta");
+        wybierzPlikKlienta.setBounds(390,250,150,50);
+        add(wybierzPlikKlienta);
+        wybierzPlikKlienta.addActionListener(e -> {
             JFileChooser wybierak = new JFileChooser();
             wybierak.setCurrentDirectory(new File("."));
             int odpowiedz = wybierak.showOpenDialog(null);
@@ -146,6 +168,8 @@ public class MyFrame extends JFrame implements ActionListener{
                 start.wczytajKlient(plik.getName());
             }
         });
+
+
 
         JTextField nazwaPliku = new JTextField();
         JButton dodajNazwe = new JButton("Dodaj");
@@ -180,7 +204,6 @@ public class MyFrame extends JFrame implements ActionListener{
 
         repaint();
     }
-
 
     public void opcjeUbezpieczenia(){
 
@@ -231,7 +254,19 @@ public class MyFrame extends JFrame implements ActionListener{
         add(nwwC);
         add(asisstanceC);
 
-
+        //Przycisk dodawania danych
+        JButton dodaj = new JButton("Zapisz");
+        dodaj.setBounds(500,400,100,40);
+        dodaj.setHorizontalAlignment(JButton.CENTER);
+        dodaj.addActionListener(e -> {
+                if(ocC.isSelected())opcjeUbezpieczenia[0]=true;
+                if(acC.isSelected())opcjeUbezpieczenia[1]=true;
+                if(nwwC.isSelected())opcjeUbezpieczenia[2]=true;
+                if(asisstanceC.isSelected())opcjeUbezpieczenia[3]=true;
+                daneUbezpieczenia = true;
+                komunikat("Zapisano dane");
+        });
+        add(dodaj);
 
         //Przycisk powrotu
         JButton powrot = new JButton("Wróć");
@@ -244,6 +279,33 @@ public class MyFrame extends JFrame implements ActionListener{
         revalidate();
         repaint();
 
+    }
+
+    public void komunikat(String s) {
+
+        getContentPane().removeAll();
+
+
+        JLabel ogloszenie = new JLabel(s);
+        ogloszenie.setBounds(0,0,1100,900);
+        ogloszenie.setHorizontalAlignment(JLabel.CENTER);
+        ogloszenie.setVerticalAlignment(JLabel.CENTER);
+        ogloszenie.setFont(new Font("Arial",Font.BOLD, 40));
+        add(ogloszenie);
+
+        revalidate();
+
+        repaint();
+
+        ActionListener akcja = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                widokStart();
+            }
+        };
+        Timer timer = new Timer(1000,akcja);
+        timer.setRepeats(false);
+        timer.start();
     }
 
     public void wprowadzKlient(){
@@ -391,6 +453,20 @@ public class MyFrame extends JFrame implements ActionListener{
         add(sposobUzytkowaniaJ);
 
 
+        JButton wybierzPlikKlienta = new JButton("Wybierz plik klienta");
+        wybierzPlikKlienta.setBounds(600,800,150,40);
+        add(wybierzPlikKlienta);
+        wybierzPlikKlienta.addActionListener(e -> {
+            JFileChooser wybierak = new JFileChooser();
+            wybierak.setCurrentDirectory(new File("."));
+            int odpowiedz = wybierak.showOpenDialog(null);
+
+            if(odpowiedz == JFileChooser.APPROVE_OPTION){
+                File plik = new File((wybierak.getSelectedFile().getAbsolutePath()));
+                daneKlienta = true;
+                start.wczytajKlient(plik.getName());
+            }
+        });
 
         JButton dodajDane =  new JButton("Dodaj dane");
         dodajDane.setBounds(600, 740,100,40);
@@ -498,7 +574,10 @@ public class MyFrame extends JFrame implements ActionListener{
 
         JButton upPojazd = new JButton("Dodaj dane");
         upPojazd.setBounds(50,620,100,50);
-        upPojazd.addActionListener(e -> aktualizujPojazd(listaMarek,listaModeli,rodzajPaliwa,pojemnoscSilnika,przebiegPojazdu,rokProdukcji,uszkodzenia));
+        upPojazd.addActionListener(e -> {
+            danePojazdu = true;
+            aktualizujPojazd(listaMarek,listaModeli,rodzajPaliwa,pojemnoscSilnika,przebiegPojazdu,rokProdukcji,uszkodzenia);
+        });
         add(upPojazd);
 
         JButton przycisk = new JButton();
@@ -534,6 +613,7 @@ public class MyFrame extends JFrame implements ActionListener{
         this.daneKlienta = false;
         this.danePojazdu = false;
         this.daneUbezpieczenia = false;
+        this.opcjeUbezpieczenia = new boolean[4];
 
         //JScrollPane scr = new JScrollPane(this,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         //add(scr);
@@ -559,24 +639,99 @@ public class MyFrame extends JFrame implements ActionListener{
 
     public void pokazOferty(){
 
+        JFrame oferty = new JFrame();
+        oferty.setVisible(true);
+        oferty.setSize(500,600);
+
+        JLabel ocN = new JLabel("OC");
+        JLabel acN = new JLabel("AC");
+        JLabel nwN = new JLabel("NWW");
+        JLabel asN = new JLabel("ASS");
+        ocN.setBounds(270,5,40,30);
+        acN.setBounds(320,5,40,30);
+        nwN.setBounds(370,5,40,30);
+        asN.setBounds(420,5,40,30);
+        ocN.setHorizontalAlignment(JLabel.CENTER);
+        acN.setHorizontalAlignment(JLabel.CENTER);
+        nwN.setHorizontalAlignment(JLabel.CENTER);
+        asN.setHorizontalAlignment(JLabel.CENTER);
+        oferty.add(ocN);
+        oferty.add(acN);
+        oferty.add(nwN);
+        oferty.add(asN);
+
+
+
         int liczbaOfert = start.getUbezpieczyciel().length;
         for(int i = 0; i < liczbaOfert ; i++){
+
+
+
+            JCheckBox ocP = new JCheckBox();
+            JCheckBox acP = new JCheckBox();
+            JCheckBox nwP = new JCheckBox();
+            JCheckBox asP = new JCheckBox();
+            ocP.setHorizontalAlignment(JCheckBox.CENTER);
+            acP.setHorizontalAlignment(JCheckBox.CENTER);
+            nwP.setHorizontalAlignment(JCheckBox.CENTER);
+            asP.setHorizontalAlignment(JCheckBox.CENTER);
+            ocP.setEnabled(false);
+            acP.setEnabled(false);
+            nwP.setEnabled(false);
+            asP.setEnabled(false);
+            ocP.setBounds(270,(50 + i * 50),40,40);
+            acP.setBounds(320,(50 + i * 50),40,40);
+            nwP.setBounds(370,(50 + i * 50),40,40);
+            asP.setBounds(420,(50 + i * 50),40,40);
+
+            int suma = 0;
+
+            boolean samoAC =  false;
+
+            if(opcjeUbezpieczenia[0]){
+                ocP.setSelected(true);
+                suma += start.getUbezpieczyciel()[i].getPrzeliczniki().liczOC(start.getPojazd(), start.getMarki(), start.getKlient());
+            }
+            else samoAC = true;
+            if(opcjeUbezpieczenia[1]){
+                acP.setSelected(true);
+                suma += start.getUbezpieczyciel()[i].getPrzeliczniki().liczAC(start.getPojazd(),start.getMarki(), start.getKlient(), samoAC);
+            }
+            if(opcjeUbezpieczenia[2]){
+                nwP.setSelected(true);
+            }
+            if(opcjeUbezpieczenia[3]){
+                asP.setSelected(true);
+            }
+
+
 
             JTextField ubezpieczyciel = new JTextField();
             ubezpieczyciel.setText(start.getUbezpieczyciel()[i].getNazwa());
             ubezpieczyciel.setEditable(false);
-            ubezpieczyciel.setBounds(300,(100+i*50),100,40);
+            ubezpieczyciel.setBounds(45, (50 + i * 50),100,40);
             ubezpieczyciel.setHorizontalAlignment(JTextField.CENTER);
-            add(ubezpieczyciel);
+            oferty.add(ubezpieczyciel);
+
+
             JTextField kwota = new JTextField();
-            kwota.setText("50");
+            kwota.setText(suma+" zł");
             kwota.setEditable(false);
-            kwota.setBounds(410,(100+i*50),100,40);
+            kwota.setBounds(155, (50 + i * 50),100,40);
             kwota.setHorizontalAlignment(JTextField.CENTER);
-            add(kwota);
+            oferty.add(kwota);
+
+            oferty.add(ocP);
+            oferty.add(acP);
+            oferty.add(nwP);
+            oferty.add(asP);
+
+            JLabel buff = new JLabel();
+            buff.setVisible(false);
+            oferty.add(buff);
 
         }
-
+        oferty.repaint();
     }
 
     public void policz(boolean ac_oc) {
