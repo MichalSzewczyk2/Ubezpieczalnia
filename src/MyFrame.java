@@ -1,9 +1,9 @@
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -20,7 +20,10 @@ public class MyFrame extends JFrame implements ActionListener{
         JButton wprowadzDaneP = new JButton("Wprowadz dane");
         wprowadzDaneP.setBounds(373, 180,150,50);
 
-        wprowadzDaneP.addActionListener(e -> wprowadzKlient());
+        wprowadzDaneP.addActionListener(e -> {
+            wprowadzPojazd();
+            wprowadzKlient();
+        });
 
         JButton wczytajDaneP = new JButton("Wczytaj dane");
         wczytajDaneP.setBounds(543,180,150,50);
@@ -62,10 +65,26 @@ public class MyFrame extends JFrame implements ActionListener{
         getContentPane().removeAll();
 
         JButton powrot = new JButton("Wróć");
-        powrot.setBounds(1000,0,66,50);
+        powrot.setBounds(966,0,100,50);
         powrot.setBackground(new Color(255,0,0));
+        powrot.setHorizontalAlignment(JButton.CENTER);
         powrot.addActionListener(e -> widokStart());
         add(powrot);
+
+
+        JButton wybierzPlik = new JButton("Wybierz plik");
+        wybierzPlik.setBounds(200,300,100,50);
+        add(wybierzPlik);
+        wybierzPlik.addActionListener(e -> {
+            JFileChooser wybierak = new JFileChooser();
+            wybierak.setCurrentDirectory(new File("."));
+            int odpowiedz = wybierak.showOpenDialog(null);
+
+            if(odpowiedz == JFileChooser.APPROVE_OPTION){
+                File plik = new File((wybierak.getSelectedFile().getAbsolutePath()));
+                start.wczytajKlient(plik.getName());
+            }
+        });
 
         JTextField nazwaPliku = new JTextField();
         JButton dodajNazwe = new JButton("Dodaj");
@@ -82,8 +101,6 @@ public class MyFrame extends JFrame implements ActionListener{
         dodajNazwe.setBounds(548, 185, 80,30);
         nazwaPliku.setVisible(true);
         nazwaPliku.setPreferredSize(new Dimension(100,40));
-        System.out.println("Dzilam");
-
 
         revalidate();
         repaint();
@@ -93,7 +110,169 @@ public class MyFrame extends JFrame implements ActionListener{
         add(dodajNazwe);
     }
 
+
+
+
     public void wprowadzKlient(){
+
+        //Pole do wpisania imienia
+        JLabel imieL = new JLabel("Imie:");
+        imieL.setBounds(600,20,150,40);
+        imieL.setHorizontalAlignment(JLabel.CENTER);
+        add(imieL);
+        JTextField imieJ = new JTextField();
+        imieJ.setBounds(760,20,150,40);
+        add(imieJ);
+
+        //Pole do wpisania nazwiska
+        JLabel nazwiskoL = new JLabel("Nazwisko:");
+        nazwiskoL.setBounds(600,80,150,40);
+        nazwiskoL.setHorizontalAlignment(JLabel.CENTER);
+        add(nazwiskoL);
+        JTextField nazwiskoJ = new JTextField();
+        nazwiskoJ.setBounds(760,80,150,40);
+        add(nazwiskoJ);
+
+        //Pole wyboru płci
+        String[] plecS = {"KOBIETA","MEZCZYZNA"};
+        JLabel plecL = new JLabel("Płeć:");
+        plecL.setBounds(600,140,150,40);
+        plecL.setHorizontalAlignment(JLabel.CENTER);
+        add(plecL);
+        JComboBox<String> plecJ = new JComboBox<>(plecS);
+        plecJ.setBounds(760,140,150,40);
+        plecJ.setEditable(false);
+        add(plecJ);
+
+        //pole wyboru daty urodzenia
+        String[] lataS = {"1990","1991","1992","1993","1994","1995","1996","1997","1998","1999","2000","2001","2002","2003","2004","2005"};
+        String[] miesiaceS = {"01","02","03","04","05","06","07","08","09","10","11","12"};
+        String[] dniS = {"01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"};
+        JLabel dataUrodzeniaL = new JLabel("Data urodzenia");
+        dataUrodzeniaL.setBounds(600,200,150,40);
+        dataUrodzeniaL.setHorizontalAlignment(JLabel.CENTER);
+        add(dataUrodzeniaL);
+        JComboBox dniJ = new JComboBox<>(dniS);
+        dniJ.setBounds(760,200,45,40);
+        dniJ.setEditable(false);
+        add(dniJ);
+        JComboBox miesaceJ = new JComboBox<>(miesiaceS);
+        miesaceJ.setBounds(810,200,45,40);
+        miesaceJ.setEditable(false);
+        add(miesaceJ);
+        JComboBox lataJ = new JComboBox<>(lataS);
+        lataJ.setBounds(860,200,55,40);
+        lataJ.setEditable(false);
+        add(lataJ);
+
+
+
+        //pole wpisania nr pesel
+        JLabel peselL = new JLabel("PESEL:");
+        peselL.setBounds(600,260,150,40);
+        peselL.setHorizontalAlignment(JLabel.CENTER);
+        add(peselL);
+        JTextField peselJ = new JTextField();
+        peselJ.setBounds(760,260,150,40);
+        add(peselJ);
+
+        //pole wyboru wojewodztwa
+        String[] wojewodztwoS = {"Dolnośląskie","Kujawsko-pomorskie","Lubelskie","Lubuskie","Lódzkie","Małopolskie","Mazowieckie","Opolskie","Podkarpackie","Podlaskie","Pomorskie","Sląskie","Swietokrzyskie","Warmińsko-mazurskie","Wielkopolskie","Zachodniopomorskie"};
+        JLabel wojewodztwoL = new JLabel("Wojewodztwo:");
+        wojewodztwoL.setBounds(600,320,150,40);
+        wojewodztwoL.setHorizontalAlignment(JLabel.CENTER);
+        add(wojewodztwoL);
+        JComboBox wojewodztwoJ = new JComboBox<>(wojewodztwoS);
+        wojewodztwoJ.setBounds(760,320,150,40);
+        wojewodztwoJ.setEditable(false);
+        add(wojewodztwoJ);
+        wojewodztwoJ.addActionListener(e -> System.out.println(wojewodztwoJ.getSelectedIndex()));
+
+        //pole wyboru stanu cywilnego
+        String[] stanCywilnyS = {"KAWALER_PANNA","ZONATY_ZAMEZNA","WDOWIEC_WDOWA","ROZWIEDZIONY_ROZWIEDZIONA"};
+        JLabel stanCywilnyL = new JLabel("Stan cywilny: ");
+        stanCywilnyL.setBounds(600,380,150,40);
+        stanCywilnyL.setHorizontalAlignment(JLabel.CENTER);
+        add(stanCywilnyL);
+        JComboBox stanCywilnyJ = new JComboBox<>(stanCywilnyS);
+        stanCywilnyJ.setBounds(760,380,150,40);
+        stanCywilnyJ.setEditable(false);
+        add(stanCywilnyJ);
+
+        //pole wyboru czy poosiada dzieci
+        String[] dzieciS = {"Tak","Nie"};
+        JLabel dzieciL = new JLabel("Czy posiada dzieci poniżej 26 lat");
+        dzieciL.setBounds(600,440,150,40);
+        dzieciL.setHorizontalAlignment(JLabel.CENTER);
+        add(dzieciL);
+        JComboBox dzieciJ = new JComboBox<>(dzieciS);
+        dzieciJ.setBounds(760,440,150,40);
+        dzieciJ.setEditable(false);
+        add(dzieciJ);
+
+        //pole wpisania kodu pocztowego
+        JLabel kodPocztowyL = new JLabel("Kod pocztowy:");
+        kodPocztowyL.setBounds(600,500,150,40);
+        kodPocztowyL.setHorizontalAlignment(JLabel.CENTER);
+        add(kodPocztowyL);
+        JLabel kodPocztowyPauzaL = new JLabel("-");
+        kodPocztowyPauzaL.setBounds(800,500,10,40);
+        kodPocztowyPauzaL.setHorizontalAlignment(JLabel.CENTER);
+        add(kodPocztowyPauzaL);
+        JTextField kodPocztowy1J = new JTextField("00");
+        kodPocztowy1J.setBounds(760,500,40,40);
+        add(kodPocztowy1J);
+        JTextField kodPocztowy2J = new JTextField("000");
+        kodPocztowy2J.setBounds(810,500,100,40);
+        add(kodPocztowy2J);
+
+
+        //pole wyboru daty prawa jazdy
+        JLabel prawoJazdyL = new JLabel("Rok otrzymania prawa jazdy");
+        prawoJazdyL.setBounds(600,560,150,40);
+        prawoJazdyL.setHorizontalAlignment(JLabel.CENTER);
+        add(prawoJazdyL);
+        JTextField prawoJazdyJ = new JTextField();
+        prawoJazdyJ.setBounds(760,560,150,40);
+        add(prawoJazdyJ);
+
+        //pole wpisania czasu oc
+        JLabel ocL = new JLabel("Ile lat kupuje OC");
+        ocL.setBounds(600,620,150,40);
+        ocL.setHorizontalAlignment(JLabel.CENTER);
+        add(ocL);
+        JTextField ocJ = new JTextField();
+        ocJ.setBounds(760,620,150,40);
+        add(ocJ);
+
+        //pole wyboru sposobu uzytkowania
+        // 0-na ulicy, 1-we wspolnym garazu, 2-teren posesji, 3-w indywidualnym garazu, 4-na parkingu strzezonym, 5-inne miejsce niestrzezone
+        String[] sposobUzytkowaniaS = {"na ulicy","we wspolnym garazu","teren posesji","w indywidualnym garazu","na parkingu strzezonym","inne miejsce niestrzezone"};
+        JLabel sposobUzytkowaniaL = new JLabel("Sposob uzytkowania:");
+        sposobUzytkowaniaL.setBounds(600,680,150,40);
+        sposobUzytkowaniaL.setHorizontalAlignment(JLabel.CENTER);
+        add(sposobUzytkowaniaL);
+        JComboBox sposobUzytkowaniaJ = new JComboBox<>(sposobUzytkowaniaS);
+        sposobUzytkowaniaJ.setBounds(760,680,150,40);
+        sposobUzytkowaniaJ.setEditable(false);
+        add(sposobUzytkowaniaJ);
+
+
+
+        JButton dodajDane =  new JButton("Dodaj dane");
+        dodajDane.setBounds(600, 740,100,40);
+        add(dodajDane);
+        dodajDane.addActionListener(e -> {
+            int kodpocztowyI = Integer.parseInt(kodPocztowy1J.getText())*1000+Integer.parseInt(kodPocztowy2J.getText());
+            String dataUrodzeniaS = lataJ.getSelectedItem()+"-"+miesaceJ.getSelectedItem()+"-"+dniJ.getSelectedItem();
+            aktualizujKlient(imieJ,nazwiskoJ,plecJ,dataUrodzeniaS,peselJ,wojewodztwoJ,stanCywilnyJ,dzieciJ,kodpocztowyI,prawoJazdyJ,sposobUzytkowaniaJ);
+            System.out.println(start.getKlient());
+        });
+
+        repaint();
+    }
+
+    public void wprowadzPojazd(){
 
         getContentPane().removeAll();
 
@@ -105,7 +284,7 @@ public class MyFrame extends JFrame implements ActionListener{
         marka.setBounds(5,20,150, 40);
         marka.setHorizontalAlignment(JLabel.CENTER);
         add(marka);
-        JComboBox listaMarek = new JComboBox(s);
+        JComboBox listaMarek = new JComboBox<>(s);
         listaMarek.setBounds(160, 20, 80, 40);
         listaMarek.setEditable(false);
         add(listaMarek);
@@ -114,7 +293,7 @@ public class MyFrame extends JFrame implements ActionListener{
         model.setBounds(5,80,150, 40);
         model.setHorizontalAlignment(JLabel.CENTER);
         add(model);
-        JComboBox listaModeli = new JComboBox();
+        JComboBox listaModeli = new JComboBox<>();
         listaModeli.setBounds(160,80, 80,40);
         setModelList(start.getMarki()[0].getNazwa(), listaModeli);
         add(listaModeli);
@@ -154,9 +333,33 @@ public class MyFrame extends JFrame implements ActionListener{
         add(rodzajPaliwa);
 
 
+
+
+        String[] uszkodzniaS = {"Obtarcie","Stłuczka","Szkoda całkowita"};
+        JComboBox uszkodzenia = new JComboBox<>(uszkodzniaS);
+        uszkodzenia.setBounds(210,380,150,40);
+
+
+        JLabel uszkodzeniabBox = new JLabel("Czy auto jest uszkodzone");
+        uszkodzeniabBox.setBounds(5,380,150,40);
+        add(uszkodzeniabBox);
+        JCheckBox uszkodzeniaZaznacz = new JCheckBox();
+        uszkodzeniaZaznacz.setBounds(160,380,40,40);
+        add(uszkodzeniaZaznacz);
+        uszkodzeniaZaznacz.addActionListener(e -> {
+            if(uszkodzeniaZaznacz.isSelected()){
+                add(uszkodzenia);
+                repaint();
+            }else{
+                remove(uszkodzenia);
+                repaint();
+            }
+        });
+
+
         JButton upPojazd = new JButton("Dodaj dane");
         upPojazd.setBounds(300,200,100,50);
-        upPojazd.addActionListener(e -> aktualizujPojazd(listaMarek,listaModeli,rodzajPaliwa,pojemnoscSilnika,przebiegPojazdu,rokProdukcji));
+        upPojazd.addActionListener(e -> aktualizujPojazd(listaMarek,listaModeli,rodzajPaliwa,pojemnoscSilnika,przebiegPojazdu,rokProdukcji,uszkodzenia));
         add(upPojazd);
 
         JButton przycisk = new JButton();
@@ -165,7 +368,8 @@ public class MyFrame extends JFrame implements ActionListener{
 
 
         JButton powrot = new JButton("Wróć");
-        powrot.setBounds(1000,0,66,50);
+        powrot.setBounds(966,0,100,50);
+        powrot.setHorizontalAlignment(JButton.CENTER);
         powrot.setBackground(new Color(255,0,0));
         powrot.addActionListener(e -> widokStart());
         add(powrot);
@@ -184,6 +388,11 @@ public class MyFrame extends JFrame implements ActionListener{
 
     public MyFrame(Start start){
         this.start = start;
+
+
+        //JScrollPane scr = new JScrollPane(this,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        //add(scr);
+
         JLabel tytul = new JLabel("Porównywarka ubezpieczeń");
         tytul.setBounds(283,10,500,30);
         tytul.setFont(new Font("Arial",Font.BOLD, 30));
@@ -195,7 +404,7 @@ public class MyFrame extends JFrame implements ActionListener{
         setTitle("Ubezpieczenia");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(null);
-        setSize(1066,600);
+        setSize(1066,900);
         setResizable(false);
         setVisible(true);
 
@@ -220,7 +429,33 @@ public class MyFrame extends JFrame implements ActionListener{
         add(wynik);
     }
 
-    public void aktualizujPojazd(JComboBox listaMarek, JComboBox listaModeli, JComboBox rodzajP, JTextField pojemnoscSilnika, JTextField przebiegPojazdu, JTextField rokProdukcjiPojazdu){
+    public void aktualizujKlient(JTextField imie, JTextField nazwisko, JComboBox plec, String dataUrodzenia, JTextField pesel, JComboBox wojewodztwo, JComboBox stanCywilny, JComboBox czyDzieci, int kodPocztowy, JTextField rokPrawaJazdy, JComboBox sposobUzytkowania){
+        if(start.getKlient() == null){
+            start.setKlient(new Klient());
+        }
+        Date now = new Date();
+        SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd");
+        start.getKlient().setImie(imie.getText());
+        start.getKlient().setNazwisko(nazwisko.getText());
+        start.getKlient().setPlec(Klient.rodzajePlci.valueOf((String) plec.getSelectedItem()));
+        try {
+            start.getKlient().setDataUrodzenia(sd.parse(dataUrodzenia));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        start.getKlient().setPesel(Long.parseLong(pesel.getText()));
+        start.getKlient().setNrWojewodztwa(wojewodztwo.getSelectedIndex());
+        start.getKlient().setStanCywilny(Klient.rodzajeStanowCywilnych.valueOf((String) stanCywilny.getSelectedItem()));
+        start.getKlient().setStanCywil(stanCywilny.getSelectedIndex());
+        boolean dzieci = false;
+        if(czyDzieci.getSelectedIndex()==0)dzieci = true;
+        start.getKlient().setCzyDzieci(dzieci);
+        start.getKlient().setKodPocztowy(kodPocztowy);
+        start.getKlient().setRokOtrzymaniaPrawaJazdy(Integer.parseInt(rokPrawaJazdy.getText()));
+        start.getKlient().setSposobUzytkowania(sposobUzytkowania.getSelectedIndex());
+    }
+
+    public void aktualizujPojazd(JComboBox listaMarek, JComboBox listaModeli, JComboBox rodzajP, JTextField pojemnoscSilnika, JTextField przebiegPojazdu, JTextField rokProdukcjiPojazdu, JComboBox uszkodzenia){
 
         String marka = (String)listaMarek.getSelectedItem();
         String model = (String)listaModeli.getSelectedItem();
@@ -228,13 +463,17 @@ public class MyFrame extends JFrame implements ActionListener{
         double pojemnosc = Double.parseDouble(pojemnoscSilnika.getText());
         int przebieg = Integer.parseInt(przebiegPojazdu.getText());
         int rokProdukcji = Integer.parseInt(rokProdukcjiPojazdu.getText());
-
+        int uszkodzeniaI = 0;
+        if(uszkodzenia.getSelectedItem().toString().equals("Obtarcie")) uszkodzeniaI = 25;
+        else if(uszkodzenia.getSelectedItem().equals("Stłuczka")) uszkodzeniaI = 50;
+        else if(uszkodzenia.getSelectedItem().toString().equals("Szkoda całkowita")) uszkodzeniaI = 100;
         start.getPojazd().setMarka(marka);
         start.getPojazd().setModel(model);
         start.getPojazd().setRodzaj_paliwa(rodzajPaliwa);
         start.getPojazd().setPojemnosc_silnika(pojemnosc);
         start.getPojazd().setPrzebieg(przebieg);
         start.getPojazd().setRok_produkcji(rokProdukcji);
+        start.getPojazd().setStopien_uszkodzen(uszkodzeniaI);
 
     }
 

@@ -1,6 +1,5 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Scanner;
@@ -136,7 +135,7 @@ public class Start {
             if(Integer.parseInt(czytaj.nextLine()) ==1 ){
                 k.setCzyDzieci(true);
             }else k.setCzyDzieci(false);
-            k.setDataOtrzymaniaPrawaJazdy(new SimpleDateFormat("yyyy-MM-dd").parse(czytaj.nextLine()));
+            k.setRokOtrzymaniaPrawaJazdy(Integer.parseInt(czytaj.nextLine()));
             k.setKodPocztowy(Integer.parseInt(czytaj.nextLine()));
             k.setCzasPolisyOC(Integer.parseInt(czytaj.nextLine()));
             k.setNrWojewodztwa(Integer.parseInt(czytaj.nextLine()));

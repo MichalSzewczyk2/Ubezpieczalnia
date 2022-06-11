@@ -56,6 +56,7 @@ public class Pojazd {
         return rodzaj_paliwa;
     }
 
+
     public double getPojemnosc_silnika() {
         return pojemnosc_silnika;
     }

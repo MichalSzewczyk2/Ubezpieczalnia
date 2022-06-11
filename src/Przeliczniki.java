@@ -105,6 +105,11 @@ public class Przeliczniki {
 
     public double liczOC(Pojazd auto, MarkaPojazdu[] marki, Klient klient){
 
+        if(auto.getStopien_uszkodzen() == 100){
+            System.out.println("Nie można ubezpieczyć pojazdu");
+            return 0.0;
+        }
+
         double ubezpieczenie = 0.0;
         ubezpieczenie += auto.getPojemnosc_silnika() * 100;
         ubezpieczenie += auto.getWiekPojazdu() * 10;

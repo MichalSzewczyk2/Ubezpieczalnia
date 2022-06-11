@@ -27,7 +27,7 @@ public class Klient {
     rodzajeStanowCywilnych stanCywilny;
     rodzajePlci plec;
     boolean czyDzieci;
-    Date dataOtrzymaniaPrawaJazdy;
+    int rokOtrzymaniaPrawaJazdy;
     int kodPocztowy;
     int czasPolisyOC;
     int nrWojewodztwa; // 0-15
@@ -45,7 +45,7 @@ public class Klient {
 
     public Klient(long pesel, String imie, String nazwisko, Date dataUrodzenia,
                   rodzajeKierowcow czyKierowca, rodzajeStanowCywilnych stanCywilny, rodzajePlci plec,
-                  boolean czyDzieci, Date dataOtrzymaniaPrawaJazdy,int kodPocztowy, int nrWojewodztwa, int stanCywil, int sposobUzytkowania) {
+                  boolean czyDzieci, int rokOtrzymaniaPrawaJazdy, int kodPocztowy, int nrWojewodztwa, int stanCywil, int sposobUzytkowania) {
         this.pesel = pesel;
         this.imie = imie;
         this.nazwisko = nazwisko;
@@ -54,7 +54,7 @@ public class Klient {
         this.stanCywilny = stanCywilny;
         this.plec = plec;
         this.czyDzieci = czyDzieci;
-        this.dataOtrzymaniaPrawaJazdy = dataOtrzymaniaPrawaJazdy;
+        this.rokOtrzymaniaPrawaJazdy = rokOtrzymaniaPrawaJazdy;
         this.kodPocztowy = kodPocztowy;
         this.nrWojewodztwa = nrWojewodztwa;
         this.stanCywil = stanCywil;
@@ -83,7 +83,7 @@ public class Klient {
             if(Integer.parseInt(dane[7]) ==1 ){
                 czyDzieci = true;
             }else czyDzieci = false;
-            dataOtrzymaniaPrawaJazdy = new SimpleDateFormat("yyyy-MM-dd").parse(dane[8]);
+            rokOtrzymaniaPrawaJazdy = Integer.parseInt(dane[8]);
             kodPocztowy = Integer.parseInt(dane[9]);
             czasPolisyOC = Integer.parseInt(dane[10]);
             nrWojewodztwa = Integer.parseInt(dane[11]);
@@ -103,7 +103,7 @@ public class Klient {
                 stanCywilny + "\t" +
                 plec + "\t" +
                 czyDzieci + "\t" +
-                dataOtrzymaniaPrawaJazdy + "\t" +
+                rokOtrzymaniaPrawaJazdy + "\t" +
                 kodPocztowy;
     }
 
@@ -122,7 +122,7 @@ public class Klient {
         Date now = new Date();
         SimpleDateFormat sd = new SimpleDateFormat("yyyy");
         int rok = Integer.parseInt(sd.format(now));
-        int rokPrawaJazdy = Integer.parseInt(sd.format(dataOtrzymaniaPrawaJazdy));
+        int rokPrawaJazdy = Integer.parseInt(sd.format(rokOtrzymaniaPrawaJazdy));
         return rok - rokPrawaJazdy;
     }
     public long getPesel() {
@@ -181,12 +181,12 @@ public class Klient {
         this.plec = plec;
     }
 
-    public Date getDataOtrzymaniaPrawaJazdy() {
-        return dataOtrzymaniaPrawaJazdy;
+    public int getRokOtrzymaniaPrawaJazdy() {
+        return rokOtrzymaniaPrawaJazdy;
     }
 
-    public void setDataOtrzymaniaPrawaJazdy(Date dataOtrzymaniaPrawaJazdy) {
-        this.dataOtrzymaniaPrawaJazdy = dataOtrzymaniaPrawaJazdy;
+    public void setRokOtrzymaniaPrawaJazdy(int rokOtrzymaniaPrawaJazdy) {
+        this.rokOtrzymaniaPrawaJazdy = rokOtrzymaniaPrawaJazdy;
     }
 
     public int getKodPocztowy() {
