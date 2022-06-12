@@ -3,9 +3,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Ubezpieczenie {
-    String nazwa;
+    String nazwaUbezpieczyciela;
     String rodzaj;
-    double cena;
+    String cena;
     Date dataRozpoczecia;
     Date dataZakonczenia;
     String peselKlienta;          //jako id wlasciciela
@@ -20,9 +20,9 @@ public class Ubezpieczenie {
         fromString(txt);
     }
 
-    public Ubezpieczenie(String nazwa, String rodzaj, double cena, Date dataRozpoczecia,
+    public Ubezpieczenie(String nazwa, String rodzaj, String cena, Date dataRozpoczecia,
                          Date dataZakonczenia, String peselKlienta, String nrRejestracyjny) {
-        this.nazwa = nazwa;
+        this.nazwaUbezpieczyciela = nazwa;
         this.rodzaj = rodzaj;
         this.cena = cena;
         this.dataRozpoczecia = dataRozpoczecia;
@@ -40,9 +40,9 @@ public class Ubezpieczenie {
             throw new IllegalArgumentException("Argument funkcji jest niepoprawny");
 
         try {
-            nazwa = dane[0];
+            nazwaUbezpieczyciela = dane[0];
             rodzaj = dane[1];
-            cena = Double.valueOf(dane[2]);
+            cena = dane[2];
             dataRozpoczecia = new SimpleDateFormat("yyyy-MM-dd").parse(dane[3]);
             dataZakonczenia = new SimpleDateFormat("yyyy-MM-dd").parse(dane[4]);
             peselKlienta = dane[5];
@@ -55,7 +55,7 @@ public class Ubezpieczenie {
 
     public String toString()
     {
-        return nazwa + "\t" +
+        return nazwaUbezpieczyciela + "\t" +
                 rodzaj + "\t" +
                 cena + "\t" +
                 new SimpleDateFormat("yyyy-MM-dd").format(dataRozpoczecia) + "\t" +
@@ -67,11 +67,11 @@ public class Ubezpieczenie {
 
 
     public String getNazwa() {
-        return nazwa;
+        return nazwaUbezpieczyciela;
     }
 
     public void setNazwa(String nazwa) {
-        this.nazwa = nazwa;
+        this.nazwaUbezpieczyciela = nazwa;
     }
 
     public String getRodzaj() {
@@ -82,11 +82,11 @@ public class Ubezpieczenie {
         this.rodzaj = rodzaj;
     }
 
-    public double getCena() {
+    public String getCena() {
         return cena;
     }
 
-    public void setCena(double cena) {
+    public void setCena(String cena) {
         this.cena = cena;
     }
 

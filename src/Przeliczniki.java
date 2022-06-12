@@ -2,12 +2,14 @@ import java.util.Arrays;
 
 public class Przeliczniki {
 
+    private int maxWiekAC;
     private double[] przeliczniki;//0-przelicznik dzieci, 1-przelicznik wieku, 2-przelicznik stan cywilny, 3-przelicznik przebieg, 4- przelicznik wartosci, 5-przelicznik ac
     private double[] przelicznikiRodzaji;//0-osobowka, 1-motor, 2-ciezarowka, 4-autobus, 5-ciagnik rolniczy
     private double[] przelicznikiWojewodztw;
     private double[] przelicznikiSposobUzytkowania;// 0-na ulicy, 1-we wspolnym garazu, 2-teren posesji, 3-w indywidualnym garazu, 4-na parkingu strzezonym, 5-inne miejsce niestrzezone
 
-    public Przeliczniki(double[] przeliczniki, double[] przelicznikiRodzaji, double[] przelicznikiWojewodztw, double[] przelicznikiSposobUzytkowania){
+    public Przeliczniki(int maxWiekAC, double[] przeliczniki, double[] przelicznikiRodzaji, double[] przelicznikiWojewodztw, double[] przelicznikiSposobUzytkowania){
+        this.maxWiekAC = maxWiekAC;
         this.przeliczniki = new double[6];
         System.arraycopy(przeliczniki, 0, this.przeliczniki, 0, 6);
         this.przelicznikiRodzaji = new double[5];
@@ -128,6 +130,9 @@ public class Przeliczniki {
 
     public double liczAC(Pojazd auto, MarkaPojazdu[] marki, Klient klient, boolean samoAC){
 
+        if(auto.getWiekPojazdu() > maxWiekAC){
+            return 0.0;
+        }
         int wartoscPojazdu = wartoscZModelu(auto, marki);
 
         double ac = wartoscPojazdu * 0.01 * przeliczniki[4];

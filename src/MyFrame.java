@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class MyFrame extends JFrame implements ActionListener{
@@ -16,8 +17,6 @@ public class MyFrame extends JFrame implements ActionListener{
     boolean danePojazdu;
     boolean daneUbezpieczenia;
     boolean[] opcjeUbezpieczenia;
-
-
 
     private void widokStart(){
         getContentPane().removeAll();
@@ -219,7 +218,7 @@ public class MyFrame extends JFrame implements ActionListener{
         //Wybór rodzaju ubezpieczenia
         JLabel ocL = new JLabel("OC");
         JLabel acL = new JLabel("AC");
-        JLabel nwwL = new JLabel("NWW");
+        JLabel nwwL = new JLabel("NNW");
         JLabel asisstanceL = new JLabel("Assistance");
         ocL.setBounds(255,250,140,50);
         acL.setBounds(405,250,140,50);
@@ -571,17 +570,27 @@ public class MyFrame extends JFrame implements ActionListener{
             }
         });
 
+        JLabel rejestracja = new JLabel("Wprowadź nr rejestracji");
+        rejestracja.setBounds(50,620,150, 40);
+        rejestracja.setHorizontalAlignment(JLabel.CENTER);
+        add(rejestracja);
+        JTextField rejestracjaF = new JTextField();
+        rejestracjaF.setBounds(210,620,80,40);
+        add(rejestracjaF);
+
 
         JButton upPojazd = new JButton("Dodaj dane");
-        upPojazd.setBounds(50,620,100,50);
+        upPojazd.setBounds(50,680,100,50);
         upPojazd.addActionListener(e -> {
             danePojazdu = true;
-            aktualizujPojazd(listaMarek,listaModeli,rodzajPaliwa,pojemnoscSilnika,przebiegPojazdu,rokProdukcji,uszkodzenia);
+            aktualizujPojazd(listaMarek,listaModeli,rodzajPaliwa,pojemnoscSilnika,przebiegPojazdu,rokProdukcji,uszkodzenia,rejestracjaF);
         });
         add(upPojazd);
 
+
+
         JButton przycisk = new JButton();
-        przycisk.setBounds(50,680,80,40);
+        przycisk.setBounds(50,740,80,40);
         przycisk.setText("Drukuj");
 
 
@@ -639,13 +648,15 @@ public class MyFrame extends JFrame implements ActionListener{
 
     public void pokazOferty(){
 
+        String rodzajU = "";
+
         JFrame oferty = new JFrame();
         oferty.setVisible(true);
-        oferty.setSize(500,600);
+        oferty.setSize(600,800);
 
         JLabel ocN = new JLabel("OC");
         JLabel acN = new JLabel("AC");
-        JLabel nwN = new JLabel("NWW");
+        JLabel nwN = new JLabel("NNW");
         JLabel asN = new JLabel("ASS");
         ocN.setBounds(270,5,40,30);
         acN.setBounds(320,5,40,30);
@@ -660,12 +671,12 @@ public class MyFrame extends JFrame implements ActionListener{
         oferty.add(nwN);
         oferty.add(asN);
 
-
-
         int liczbaOfert = start.getUbezpieczyciel().length;
         for(int i = 0; i < liczbaOfert ; i++){
 
-
+            JButton wybierz = new JButton("Wybierz");
+            wybierz.setBounds(480, (50 + i * 50),80,40);
+            oferty.add(wybierz);
 
             JCheckBox ocP = new JCheckBox();
             JCheckBox acP = new JCheckBox();
@@ -691,28 +702,36 @@ public class MyFrame extends JFrame implements ActionListener{
             if(opcjeUbezpieczenia[0]){
                 ocP.setSelected(true);
                 suma += start.getUbezpieczyciel()[i].getPrzeliczniki().liczOC(start.getPojazd(), start.getMarki(), start.getKlient());
+                rodzajU += "OC, ";
             }
             else samoAC = true;
             if(opcjeUbezpieczenia[1]){
-                acP.setSelected(true);
-                suma += start.getUbezpieczyciel()[i].getPrzeliczniki().liczAC(start.getPojazd(),start.getMarki(), start.getKlient(), samoAC);
+
+                int tmp = (int) start.getUbezpieczyciel()[i].getPrzeliczniki().liczAC(start.getPojazd(),start.getMarki(), start.getKlient(), samoAC);
+                if(tmp!=0){
+                    suma += tmp;
+                    acP.setSelected(true);
+                    rodzajU += "AC, ";
+                }
             }
             if(opcjeUbezpieczenia[2]){
                 nwP.setSelected(true);
+                suma += start.getUbezpieczyciel()[i].getNNW();
+                rodzajU += "NNW, ";
             }
             if(opcjeUbezpieczenia[3]){
                 asP.setSelected(true);
+                suma += start.getUbezpieczyciel()[i].getAss();
+                rodzajU += "Assistance";
             }
-
-
 
             JTextField ubezpieczyciel = new JTextField();
             ubezpieczyciel.setText(start.getUbezpieczyciel()[i].getNazwa());
+            ubezpieczyciel.setFont(new Font("Arial",Font.BOLD,15));
             ubezpieczyciel.setEditable(false);
             ubezpieczyciel.setBounds(45, (50 + i * 50),100,40);
             ubezpieczyciel.setHorizontalAlignment(JTextField.CENTER);
             oferty.add(ubezpieczyciel);
-
 
             JTextField kwota = new JTextField();
             kwota.setText(suma+" zł");
@@ -725,6 +744,23 @@ public class MyFrame extends JFrame implements ActionListener{
             oferty.add(acP);
             oferty.add(nwP);
             oferty.add(asP);
+
+            String finalRodzajU = rodzajU;
+            wybierz.addActionListener(e -> {
+                start.getUbezpieczenie().setNazwa(ubezpieczyciel.getText());
+                start.getUbezpieczenie().setRodzaj(finalRodzajU);
+                start.getUbezpieczenie().setCena(kwota.getText());
+                Date date = new Date();
+                start.getUbezpieczenie().setDataRozpoczecia(date);
+                Calendar cal = Calendar.getInstance();
+                cal.add(Calendar.YEAR, 1);
+                Date nextYear = cal.getTime();
+                start.getUbezpieczenie().setDataZakonczenia(nextYear);
+                start.getUbezpieczenie().setPeselKlienta(start.getKlient().getPesel()+"");
+                start.getUbezpieczenie().setNrRejestracyjny(start.getPojazd().getNrRejestracyjny());
+                System.out.println(start.getUbezpieczenie());
+
+            });
 
             JLabel buff = new JLabel();
             buff.setVisible(false);
@@ -777,7 +813,7 @@ public class MyFrame extends JFrame implements ActionListener{
         daneKlienta = true;
     }
 
-    public void aktualizujPojazd(JComboBox listaMarek, JComboBox listaModeli, JComboBox rodzajP, JTextField pojemnoscSilnika, JTextField przebiegPojazdu, JTextField rokProdukcjiPojazdu, JComboBox uszkodzenia){
+    public void aktualizujPojazd(JComboBox listaMarek, JComboBox listaModeli, JComboBox rodzajP, JTextField pojemnoscSilnika, JTextField przebiegPojazdu, JTextField rokProdukcjiPojazdu, JComboBox uszkodzenia, JTextField rejestracja){
 
         String marka = (String)listaMarek.getSelectedItem();
         String model = (String)listaModeli.getSelectedItem();
@@ -789,6 +825,7 @@ public class MyFrame extends JFrame implements ActionListener{
         if(uszkodzenia.getSelectedItem().toString().equals("Obtarcie")) uszkodzeniaI = 25;
         else if(uszkodzenia.getSelectedItem().equals("Stłuczka")) uszkodzeniaI = 50;
         else if(uszkodzenia.getSelectedItem().toString().equals("Szkoda całkowita")) uszkodzeniaI = 100;
+        String rej = rejestracja.getText();
         start.getPojazd().setMarka(marka);
         start.getPojazd().setModel(model);
         start.getPojazd().setRodzaj_paliwa(rodzajPaliwa);
@@ -796,7 +833,7 @@ public class MyFrame extends JFrame implements ActionListener{
         start.getPojazd().setPrzebieg(przebieg);
         start.getPojazd().setRok_produkcji(rokProdukcji);
         start.getPojazd().setStopien_uszkodzen(uszkodzeniaI);
-
+        start.getPojazd().setNrRejestracyjny(rej);
     }
 
     public void setModelList(String marka, JComboBox listaModeli){

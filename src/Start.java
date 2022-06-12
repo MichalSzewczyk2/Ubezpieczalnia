@@ -13,6 +13,7 @@ public class Start {
     private Ubezpieczenie ubezpieczenie;
 
     public Start(String ubplik, String mrplik){
+        ubezpieczenie = new Ubezpieczenie();
         wczytajUbezpieczycieli(ubplik);
         wczytajMarki(mrplik);
     }
@@ -69,6 +70,8 @@ public class Start {
                 String adres = czytaj.nextLine();
                 String kontakt = czytaj.nextLine();
                 int maxWiekAC = Integer.parseInt(czytaj.nextLine());
+                int nnw = Integer.parseInt(czytaj.nextLine());
+                int ass = Integer.parseInt(czytaj.nextLine());
                 double[] p0 = new double[6];
                 double[] p1 = new double[5];
                 double[] p2 = new double[16];
@@ -85,7 +88,7 @@ public class Start {
                 for (int j = 0; j < 6; j++) {
                     p3[j] = Double.parseDouble(czytaj.nextLine());
                 }
-                Ubezpieczyciel ub = new Ubezpieczyciel(nazwa, adres, kontakt, maxWiekAC, p0, p1, p2, p3);
+                Ubezpieczyciel ub = new Ubezpieczyciel(nazwa, adres, kontakt, maxWiekAC, nnw, ass, p0, p1, p2, p3);
                 ubezpieczyciele[i] = ub;
             }
             this.ubezpieczyciel = ubezpieczyciele;

@@ -11,18 +11,20 @@ public class Pojazd {
     private double pojemnosc_silnika;
     private int przebieg;
     private int stopien_uszkodzen;
+    private String nrRejestracyjny;
 
     public Pojazd() {
 
         this.marka = "";
         this.model = "";
-        this.rodzaj_paliwa = " ";
+        this.rodzaj_paliwa = "";
         this.pojemnosc_silnika = 0.0;
         this.przebieg = 0;
         this.stopien_uszkodzen = 0;
+        this.nrRejestracyjny = "";
     }
 
-    public Pojazd(int rok_produkcji, String marka, String model, String rodzaj_paliwa, double pojemnosc_silnika, int przebieg, int stopien_uszkodzen) {
+    public Pojazd(int rok_produkcji, String marka, String model, String rodzaj_paliwa, double pojemnosc_silnika, int przebieg, int stopien_uszkodzen, String nrRejestracyjny) {
 
         this.rok_produkcji = rok_produkcji;
         this.marka = marka;
@@ -31,6 +33,7 @@ public class Pojazd {
         this.pojemnosc_silnika = pojemnosc_silnika;
         this.przebieg = przebieg;
         this.stopien_uszkodzen = stopien_uszkodzen;
+        this.nrRejestracyjny = nrRejestracyjny;
     }
 
     public int getWiekPojazdu(){
@@ -95,6 +98,14 @@ public class Pojazd {
 
     public void setStopien_uszkodzen(int stopien_uszkodzen) {
         this.stopien_uszkodzen = stopien_uszkodzen;
+    }
+
+    public String getNrRejestracyjny() {
+        return nrRejestracyjny;
+    }
+
+    public void setNrRejestracyjny(String nrRejestracyjny) {
+        this.nrRejestracyjny = nrRejestracyjny;
     }
 
     @Override

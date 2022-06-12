@@ -3,20 +3,22 @@ public class Ubezpieczyciel {
     private String nazwa;
     private String adres;
     private String kontakt;
-    private int maxWiekAC;
     private Przeliczniki przeliczniki;
+    private int nnw;
+    private int ass;
 
 
     public Przeliczniki getPrzeliczniki() {
         return przeliczniki;
     }
 
-    public Ubezpieczyciel(String nazwa, String adres, String kontakt, int maxWiekAC, double[] p0, double[] p1, double[] p2, double[] p3) {
+    public Ubezpieczyciel(String nazwa, String adres, String kontakt, int maxWiekAC, int nnw, int ass, double[] p0, double[] p1, double[] p2, double[] p3) {
         this.nazwa = nazwa;
         this.adres = adres;
         this.kontakt = kontakt;
-        this.maxWiekAC = maxWiekAC;
-        this.przeliczniki = new Przeliczniki(p0, p1, p2, p3);
+        this.nnw = nnw;
+        this.ass = ass;
+        this.przeliczniki = new Przeliczniki(maxWiekAC, p0, p1, p2, p3);
     }
 
     @Override
@@ -51,5 +53,25 @@ public class Ubezpieczyciel {
 
     public void setKontakt(String kontakt) {
         this.kontakt = kontakt;
+    }
+
+    public void setPrzeliczniki(Przeliczniki przeliczniki) {
+        this.przeliczniki = przeliczniki;
+    }
+
+    public int getNNW() {
+        return nnw;
+    }
+
+    public void setNNW(int nnw) {
+        this.nnw = nnw;
+    }
+
+    public int getAss() {
+        return ass;
+    }
+
+    public void setAss(int ass) {
+        this.ass = ass;
     }
 }

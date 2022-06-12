@@ -3,6 +3,8 @@ PZU
 Warszawa ul.Złota 4
 pzu.ubezpieczenia@poczta.pl
 12
+45
+60
 10.0
 1.0
 5.0
@@ -40,6 +42,8 @@ AXA
 Warszawa ul.Srebrna 41
 axa.ubezpieczenia@poczta.pl
 14
+60
+80
 10.0
 1.0
 5.0
@@ -77,6 +81,8 @@ AVIVA
 Warszawa ul.Brazowa 66
 aviva.polisa@ubezpieczenie.pl
 15
+50
+90
 11.0
 1.0
 5.0
