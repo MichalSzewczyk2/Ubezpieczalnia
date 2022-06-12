@@ -1,6 +1,7 @@
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 
 public class Ubezpieczenie {
     String nazwaUbezpieczyciela;
@@ -30,8 +31,6 @@ public class Ubezpieczenie {
         this.peselKlienta = peselKlienta;
         this.nrRejestracyjny = nrRejestracyjny;
     }
-
-
 
     public void fromString(String txt)
     {
@@ -122,4 +121,17 @@ public class Ubezpieczenie {
         this.nrRejestracyjny = nrRejestracyjny;
     }
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Ubezpieczenie that = (Ubezpieczenie) o;
+        return Objects.equals(nazwaUbezpieczyciela, that.nazwaUbezpieczyciela) && Objects.equals(rodzaj, that.rodzaj) && Objects.equals(cena, that.cena) && Objects.equals(dataRozpoczecia, that.dataRozpoczecia) && Objects.equals(dataZakonczenia, that.dataZakonczenia) && Objects.equals(peselKlienta, that.peselKlienta) && Objects.equals(nrRejestracyjny, that.nrRejestracyjny);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nazwaUbezpieczyciela, rodzaj, cena, dataRozpoczecia, dataZakonczenia, peselKlienta, nrRejestracyjny);
+    }
 }

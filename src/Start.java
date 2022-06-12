@@ -2,6 +2,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Start {
@@ -168,4 +170,20 @@ public class Start {
 
     }
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Start start = (Start) o;
+        return Arrays.equals(ubezpieczyciel, start.ubezpieczyciel) && Arrays.equals(marki, start.marki) && Objects.equals(klient, start.klient) && Objects.equals(pojazd, start.pojazd) && Objects.equals(ubezpieczenie, start.ubezpieczenie);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(klient, pojazd, ubezpieczenie);
+        result = 31 * result + Arrays.hashCode(ubezpieczyciel);
+        result = 31 * result + Arrays.hashCode(marki);
+        return result;
+    }
 }

@@ -2,6 +2,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Objects;
 
 public class Klient {
     public enum rodzajeKierowcow{
@@ -235,5 +236,18 @@ public class Klient {
 
     public void setSposobUzytkowania(int sposobUzytkowania) {
         this.sposobUzytkowania = sposobUzytkowania;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Klient klient = (Klient) o;
+        return pesel == klient.pesel && czyDzieci == klient.czyDzieci && rokOtrzymaniaPrawaJazdy == klient.rokOtrzymaniaPrawaJazdy && kodPocztowy == klient.kodPocztowy && czasPolisyOC == klient.czasPolisyOC && nrWojewodztwa == klient.nrWojewodztwa && stanCywil == klient.stanCywil && sposobUzytkowania == klient.sposobUzytkowania && Objects.equals(imie, klient.imie) && Objects.equals(nazwisko, klient.nazwisko) && Objects.equals(dataUrodzenia, klient.dataUrodzenia) && czyKierowca == klient.czyKierowca && stanCywilny == klient.stanCywilny && plec == klient.plec;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(pesel, imie, nazwisko, dataUrodzenia, czyKierowca, stanCywilny, plec, czyDzieci, rokOtrzymaniaPrawaJazdy, kodPocztowy, czasPolisyOC, nrWojewodztwa, stanCywil, sposobUzytkowania);
     }
 }

@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.Objects;
 
 public class Przeliczniki {
 
@@ -113,7 +114,7 @@ public class Przeliczniki {
         }
 
         double ubezpieczenie = 0.0;
-        ubezpieczenie += auto.getPojemnosc_silnika() * 100;
+        ubezpieczenie += auto.getPojemnosc_silnika() * 0.001 * 100;
         ubezpieczenie += auto.getWiekPojazdu() * 10;
         ubezpieczenie += przelicznikiWojewodztw[klient.nrWojewodztwa];
         if(klient.czyDzieci) ubezpieczenie +=  przeliczniki[0];
@@ -142,4 +143,21 @@ public class Przeliczniki {
         return ac;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Przeliczniki that = (Przeliczniki) o;
+        return maxWiekAC == that.maxWiekAC && Arrays.equals(przeliczniki, that.przeliczniki) && Arrays.equals(przelicznikiRodzaji, that.przelicznikiRodzaji) && Arrays.equals(przelicznikiWojewodztw, that.przelicznikiWojewodztw) && Arrays.equals(przelicznikiSposobUzytkowania, that.przelicznikiSposobUzytkowania);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(maxWiekAC);
+        result = 31 * result + Arrays.hashCode(przeliczniki);
+        result = 31 * result + Arrays.hashCode(przelicznikiRodzaji);
+        result = 31 * result + Arrays.hashCode(przelicznikiWojewodztw);
+        result = 31 * result + Arrays.hashCode(przelicznikiSposobUzytkowania);
+        return result;
+    }
 }

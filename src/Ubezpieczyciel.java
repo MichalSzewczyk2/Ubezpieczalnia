@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 public class Ubezpieczyciel {
 
     private String nazwa;
@@ -73,5 +75,18 @@ public class Ubezpieczyciel {
 
     public void setAss(int ass) {
         this.ass = ass;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Ubezpieczyciel that = (Ubezpieczyciel) o;
+        return nnw == that.nnw && ass == that.ass && Objects.equals(nazwa, that.nazwa) && Objects.equals(adres, that.adres) && Objects.equals(kontakt, that.kontakt) && Objects.equals(przeliczniki, that.przeliczniki);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nazwa, adres, kontakt, przeliczniki, nnw, ass);
     }
 }

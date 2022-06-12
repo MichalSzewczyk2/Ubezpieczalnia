@@ -1,5 +1,6 @@
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 
 public class Pojazd {
 
@@ -119,5 +120,18 @@ public class Pojazd {
                 ", przebieg=" + przebieg +
                 ", stopien_uszkodzen=" + stopien_uszkodzen +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Pojazd pojazd = (Pojazd) o;
+        return rok_produkcji == pojazd.rok_produkcji && Double.compare(pojazd.pojemnosc_silnika, pojemnosc_silnika) == 0 && przebieg == pojazd.przebieg && stopien_uszkodzen == pojazd.stopien_uszkodzen && Objects.equals(marka, pojazd.marka) && Objects.equals(model, pojazd.model) && Objects.equals(rodzaj_paliwa, pojazd.rodzaj_paliwa) && Objects.equals(nrRejestracyjny, pojazd.nrRejestracyjny);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(rok_produkcji, marka, model, rodzaj_paliwa, pojemnosc_silnika, przebieg, stopien_uszkodzen, nrRejestracyjny);
     }
 }

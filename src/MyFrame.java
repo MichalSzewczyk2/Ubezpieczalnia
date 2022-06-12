@@ -467,8 +467,8 @@ public class MyFrame extends JFrame implements ActionListener{
             }
         });
 
-        JButton dodajDane =  new JButton("Dodaj dane");
-        dodajDane.setBounds(600, 740,100,40);
+        JButton dodajDane =  new JButton("Zapisz dane");
+        dodajDane.setBounds(600, 740,150,40);
         add(dodajDane);
         dodajDane.addActionListener(e -> {
             int kodpocztowyI = Integer.parseInt(kodPocztowy1J.getText())*1000+Integer.parseInt(kodPocztowy2J.getText());
@@ -546,13 +546,9 @@ public class MyFrame extends JFrame implements ActionListener{
         rodzajPaliwa.setEditable(false);
         add(rodzajPaliwa);
 
-
-
-
         String[] uszkodzniaS = {"Obtarcie","Stłuczka","Szkoda całkowita"};
         JComboBox uszkodzenia = new JComboBox<>(uszkodzniaS);
         uszkodzenia.setBounds(250,560,150,40);
-
 
         JLabel uszkodzeniabBox = new JLabel("Czy auto jest uszkodzone");
         uszkodzeniabBox.setBounds(50,560,150,40);
@@ -579,23 +575,19 @@ public class MyFrame extends JFrame implements ActionListener{
         add(rejestracjaF);
 
 
-        JButton upPojazd = new JButton("Dodaj dane");
-        upPojazd.setBounds(50,680,100,50);
+        JButton upPojazd = new JButton("Zapisz dane");
+        upPojazd.setBounds(50,680,150,50);
         upPojazd.addActionListener(e -> {
             danePojazdu = true;
             aktualizujPojazd(listaMarek,listaModeli,rodzajPaliwa,pojemnoscSilnika,przebiegPojazdu,rokProdukcji,uszkodzenia,rejestracjaF);
         });
         add(upPojazd);
 
-
-
         JButton przycisk = new JButton();
         przycisk.setBounds(50,740,80,40);
         przycisk.setText("Drukuj");
 
-
         JButton lizcOC = new JButton("Oblicz oc");
-
 
         //Przycisk powrotu
         JButton powrot = new JButton("Wróć");
