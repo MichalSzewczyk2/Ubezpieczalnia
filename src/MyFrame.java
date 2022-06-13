@@ -116,7 +116,7 @@ public class MyFrame extends JFrame implements ActionListener{
 
     }
 
-    private void sprawdzWczytanieKlienta(String plik){
+    private void sprawdzWczytanieKlienta(String plik) throws MyException {
 
 
         potwierdzenie.setBounds(638,185,200 ,30);
@@ -125,7 +125,6 @@ public class MyFrame extends JFrame implements ActionListener{
         potwierdzenie.setEditable(false);
         if (plik.equals("")){
             potwierdzenie.setText("Nie udało się wczytać klienta!");
-            System.out.println("Nie wczytano klienta 1");
         }
         start.wczytajKlient(plik);
         if(start.getKlient() != null && start.getKlient().czyKompletny()){
@@ -134,7 +133,7 @@ public class MyFrame extends JFrame implements ActionListener{
             System.out.println("Wczytano klienta");
         }else {
             potwierdzenie.setText("Nie udało się wczytać klienta!");
-            System.out.println("Nie wczytano klienta 2");
+            throw  new MyException("Nie udało się wczytać klienta");
         }
         add(potwierdzenie);
         repaint();
@@ -180,7 +179,13 @@ public class MyFrame extends JFrame implements ActionListener{
         liczOC.addActionListener(e -> policz(true));
         liczAC.addActionListener(e -> policz(false));
 
-        dodajNazwe.addActionListener(e -> sprawdzWczytanieKlienta(nazwaPliku.getText()));
+        dodajNazwe.addActionListener(e -> {
+            try {
+                sprawdzWczytanieKlienta(nazwaPliku.getText());
+            } catch (MyException ex) {
+                ex.printStackTrace();
+            }
+        });
         nazwaPliku.setBounds(438, 180,100, 40);
         dodajNazwe.setBounds(548, 185, 80,30);
         nazwaPliku.setVisible(true);
