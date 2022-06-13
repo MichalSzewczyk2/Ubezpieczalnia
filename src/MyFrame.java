@@ -472,6 +472,22 @@ public class MyFrame extends JFrame implements ActionListener{
             }
         });
 
+        JButton zapiszKlienta = new JButton("Zapisz dane do pliku");
+        zapiszKlienta.setBounds(760,740,150,40);
+        zapiszKlienta.setHorizontalAlignment(JButton.CENTER);
+        zapiszKlienta.addActionListener(e -> {
+            int kodpocztowyI = Integer.parseInt(kodPocztowy1J.getText())*1000+Integer.parseInt(kodPocztowy2J.getText());
+            String dataUrodzeniaS = lataJ.getSelectedItem()+"-"+miesaceJ.getSelectedItem()+"-"+dniJ.getSelectedItem();
+            aktualizujKlient(imieJ,nazwiskoJ,plecJ,dataUrodzeniaS,peselJ,wojewodztwoJ,stanCywilnyJ,dzieciJ,kodpocztowyI,prawoJazdyJ,sposobUzytkowaniaJ);
+            System.out.println(start.getKlient());
+
+
+            String s = new Szyfrowanie().cezarSzyfruj(start.getKlient().toString());
+            start.getOdczytZapis().zapiszPLikTekstowo("zapisanyKlient.txt",s);
+
+        });
+        add(zapiszKlienta);
+
         JButton dodajDane =  new JButton("Zapisz dane");
         dodajDane.setBounds(600, 740,150,40);
         add(dodajDane);
@@ -797,7 +813,7 @@ public class MyFrame extends JFrame implements ActionListener{
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        start.getKlient().setPesel(Integer.parseInt(pesel.getText()));
+        start.getKlient().setPesel(Long.parseLong(pesel.getText()));
         start.getKlient().setNrWojewodztwa(wojewodztwo.getSelectedIndex());
         start.getKlient().setStanCywilny(Klient.rodzajeStanowCywilnych.valueOf((String) stanCywilny.getSelectedItem()));
         start.getKlient().setStanCywil(stanCywilny.getSelectedIndex());

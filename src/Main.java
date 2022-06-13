@@ -19,7 +19,7 @@ public class Main {
         Start rozpocznij = new Start("filename.txt","pojazdy.txt");
         SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd");
         Date date = sd.parse("2000-12-12");
-        Klient klient = new Klient(00276252614,"Jan","Kowalski",date,Klient.rodzajeKierowcow.valueOf("GLOWNY_KIEROWCA"),Klient.rodzajeStanowCywilnych.valueOf("ZONATY_ZAMEZNA"),Klient.rodzajePlci.valueOf("MEZCZYZNA"),
+        Klient klient = new Klient(00276252614L,"Jan","Kowalski",date,Klient.rodzajeKierowcow.valueOf("GLOWNY_KIEROWCA"),Klient.rodzajeStanowCywilnych.valueOf("ZONATY_ZAMEZNA"),Klient.rodzajePlci.valueOf("MEZCZYZNA"),
                 true, 2018, 30100, 4,2,0);
 
         PlikOdczytZapis plik = new PlikOdczytZapis();

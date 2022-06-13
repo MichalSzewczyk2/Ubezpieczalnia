@@ -44,11 +44,19 @@ public class PlikOdczytZapis {
 
     public void zapiszPLikTekstowo(String nazwaPliku, Object objekt)
     {
-
-        String s = new Szyfrowanie().cezarSzyfruj(objekt.toString());
         try{
             PrintWriter zapis = new PrintWriter(nazwaPliku);
-            zapis.println(s);
+            zapis.println(objekt);
+            zapis.close();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public void zapiszPLikTekstowo(String nazwaPliku, String string)
+    {
+        try{
+            PrintWriter zapis = new PrintWriter(nazwaPliku);
+            zapis.println(string);
             zapis.close();
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);

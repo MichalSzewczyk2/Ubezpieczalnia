@@ -143,23 +143,23 @@ public class Start {
         }
     }
 
-    public Klient wczytajKlient (String plik){
-        try{
+    public Klient wczytajKlient (String plik) {
+        try {
             File inFile = new File(plik);
             Scanner czytaj = new Scanner(inFile);
 
             Klient k = new Klient();
 
-            k.setPesel(Integer.parseInt(czytaj.nextLine()));
+            k.setPesel(Long.parseLong(czytaj.nextLine()));
             k.setImie(czytaj.nextLine());
             k.setNazwisko(czytaj.nextLine());
             k.setDataUrodzenia(new SimpleDateFormat("yyyy-MM-dd").parse(czytaj.nextLine()));
             k.setCzyKierowca(Klient.rodzajeKierowcow.valueOf(czytaj.nextLine()));
             k.setStanCywilny(Klient.rodzajeStanowCywilnych.valueOf(czytaj.nextLine()));
             k.setPlec(Klient.rodzajePlci.valueOf(czytaj.nextLine()));
-            if(Integer.parseInt(czytaj.nextLine()) ==1 ){
+            if (Integer.parseInt(czytaj.nextLine()) == 1) {
                 k.setCzyDzieci(true);
-            }else k.setCzyDzieci(false);
+            } else k.setCzyDzieci(false);
             k.setRokOtrzymaniaPrawaJazdy(Integer.parseInt(czytaj.nextLine()));
             k.setKodPocztowy(Integer.parseInt(czytaj.nextLine()));
             k.setCzasPolisyOC(Integer.parseInt(czytaj.nextLine()));
@@ -171,13 +171,61 @@ public class Start {
 
             return k;
 
-        }catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
             return null;
-        }catch (ParseException e) {
+        } catch (ParseException e) {
             e.printStackTrace();
             return null;
         }
+    }
+    public Klient wczytajKlientCearem (String plik){
+
+
+            try{
+
+                File inFile = new File(plik);
+                Scanner czytaj = new Scanner(inFile);
+
+                String s = "";
+                while (czytaj.hasNext()){
+                    s = czytaj.next();
+                }
+                s= new Szyfrowanie().cezarDeszyfruj(s);
+                System.out.println(s);
+                czytaj = new Scanner(s);
+
+                Klient k = new Klient();
+
+                k.setPesel(Long.parseLong(czytaj.nextLine()));
+                k.setImie(czytaj.nextLine());
+                k.setNazwisko(czytaj.nextLine());
+                k.setDataUrodzenia(new SimpleDateFormat("yyyy-MM-dd").parse(czytaj.nextLine()));
+                k.setCzyKierowca(Klient.rodzajeKierowcow.valueOf(czytaj.nextLine()));
+                k.setStanCywilny(Klient.rodzajeStanowCywilnych.valueOf(czytaj.nextLine()));
+                k.setPlec(Klient.rodzajePlci.valueOf(czytaj.nextLine()));
+                if(Integer.parseInt(czytaj.nextLine()) ==1 ){
+                    k.setCzyDzieci(true);
+                }else k.setCzyDzieci(false);
+                k.setRokOtrzymaniaPrawaJazdy(Integer.parseInt(czytaj.nextLine()));
+                k.setKodPocztowy(Integer.parseInt(czytaj.nextLine()));
+                k.setCzasPolisyOC(Integer.parseInt(czytaj.nextLine()));
+                k.setNrWojewodztwa(Integer.parseInt(czytaj.nextLine()));
+                k.setStanCywil(Integer.parseInt(czytaj.nextLine()));
+                k.setSposobUzytkowania(Integer.parseInt(czytaj.nextLine()));
+
+                this.klient = k;
+
+                return k;
+
+            }catch (FileNotFoundException e) {
+                e.printStackTrace();
+                return null;
+            }catch (ParseException e) {
+                e.printStackTrace();
+                return null;
+            }
+
 
     }
 

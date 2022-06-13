@@ -21,7 +21,7 @@ public class Klient implements Serializable {
         MEZCZYZNA
     }
 
-    int pesel;
+    Long pesel;
     String imie;
     String nazwisko;
     Date dataUrodzenia;
@@ -45,7 +45,7 @@ public class Klient implements Serializable {
         fromString(txt);
     }
 
-    public Klient(int pesel, String imie, String nazwisko, Date dataUrodzenia,
+    public Klient(Long pesel, String imie, String nazwisko, Date dataUrodzenia,
                   rodzajeKierowcow czyKierowca, rodzajeStanowCywilnych stanCywilny, rodzajePlci plec,
                   boolean czyDzieci, int rokOtrzymaniaPrawaJazdy, int kodPocztowy, int nrWojewodztwa, int stanCywil, int sposobUzytkowania) {
         this.pesel = pesel;
@@ -76,7 +76,7 @@ public class Klient implements Serializable {
             throw new IllegalArgumentException("Argument funkcji jest niepoprawny");
 
         try {
-            pesel = Integer.parseInt(dane[0]);
+            pesel = Long.parseLong(dane[0]);
             imie = dane[1];
             nazwisko = dane[2];
             dataUrodzenia =  new SimpleDateFormat("yyyy-MM-dd").parse(dane[3]);
@@ -128,11 +128,11 @@ public class Klient implements Serializable {
         int rokPrawaJazdy = Integer.parseInt(sd.format(rokOtrzymaniaPrawaJazdy));
         return rok - rokPrawaJazdy;
     }
-    public int getPesel() {
+    public long getPesel() {
         return pesel;
     }
 
-    public void setPesel(int pesel) {
+    public void setPesel(long pesel) {
         this.pesel = pesel;
     }
 
