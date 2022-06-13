@@ -8,6 +8,8 @@ import java.util.Scanner;
 
 public class Start {
 
+    private PlikOdczytZapis odczytZapis;
+
     private Ubezpieczyciel[] ubezpieczyciel;
     private MarkaPojazdu[] marki;
     private Klient klient;
@@ -15,9 +17,18 @@ public class Start {
     private Ubezpieczenie ubezpieczenie;
 
     public Start(String ubplik, String mrplik){
+        odczytZapis = new PlikOdczytZapis();
         ubezpieczenie = new Ubezpieczenie();
         wczytajUbezpieczycieli(ubplik);
         wczytajMarki(mrplik);
+    }
+
+    public PlikOdczytZapis getOdczytZapis() {
+        return odczytZapis;
+    }
+
+    public void setOdczytZapis(PlikOdczytZapis odczytZapis) {
+        this.odczytZapis = odczytZapis;
     }
 
     public Ubezpieczyciel[] getUbezpieczyciel() {
@@ -139,7 +150,7 @@ public class Start {
 
             Klient k = new Klient();
 
-            k.setPesel(Long.parseLong(czytaj.nextLine()));
+            k.setPesel(Integer.parseInt(czytaj.nextLine()));
             k.setImie(czytaj.nextLine());
             k.setNazwisko(czytaj.nextLine());
             k.setDataUrodzenia(new SimpleDateFormat("yyyy-MM-dd").parse(czytaj.nextLine()));

@@ -1,10 +1,11 @@
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Objects;
 
-public class Klient {
+public class Klient implements Serializable {
     public enum rodzajeKierowcow{
         PASAZER,
         GLOWNY_KIEROWCA
@@ -20,7 +21,7 @@ public class Klient {
         MEZCZYZNA
     }
 
-    long pesel;
+    int pesel;
     String imie;
     String nazwisko;
     Date dataUrodzenia;
@@ -44,7 +45,7 @@ public class Klient {
         fromString(txt);
     }
 
-    public Klient(long pesel, String imie, String nazwisko, Date dataUrodzenia,
+    public Klient(int pesel, String imie, String nazwisko, Date dataUrodzenia,
                   rodzajeKierowcow czyKierowca, rodzajeStanowCywilnych stanCywilny, rodzajePlci plec,
                   boolean czyDzieci, int rokOtrzymaniaPrawaJazdy, int kodPocztowy, int nrWojewodztwa, int stanCywil, int sposobUzytkowania) {
         this.pesel = pesel;
@@ -70,11 +71,12 @@ public class Klient {
 
         String[] dane = txt.trim().split("\n");
         System.out.println(Arrays.toString(dane));
+        System.out.println(dane.length);
         if(dane.length != 14)
             throw new IllegalArgumentException("Argument funkcji jest niepoprawny");
 
         try {
-            pesel = Long.parseLong(dane[0]);
+            pesel = Integer.parseInt(dane[0]);
             imie = dane[1];
             nazwisko = dane[2];
             dataUrodzenia =  new SimpleDateFormat("yyyy-MM-dd").parse(dane[3]);
@@ -96,16 +98,16 @@ public class Klient {
     }
 
     public String toString() {
-        return pesel + "\t" +
-                imie + "\t" +
-                nazwisko + "\t" +
-                dataUrodzenia + "\t" +
-                czyKierowca + "\t" +
-                stanCywilny + "\t" +
-                plec + "\t" +
-                czyDzieci + "\t" +
-                rokOtrzymaniaPrawaJazdy + "\t" +
-                kodPocztowy;
+        return pesel + "\n" +
+                imie + "\n" +
+                nazwisko + "\n" +
+                new SimpleDateFormat("yyyy-MM-dd").format(dataUrodzenia) + "\n" +
+                czyKierowca + "\n" +
+                stanCywilny + "\n" +
+                plec + "\n" +
+                czyDzieci + "\n" +
+                rokOtrzymaniaPrawaJazdy + "\n" +
+                kodPocztowy + "\n";
     }
 
     public boolean czyKompletny(){
@@ -126,11 +128,11 @@ public class Klient {
         int rokPrawaJazdy = Integer.parseInt(sd.format(rokOtrzymaniaPrawaJazdy));
         return rok - rokPrawaJazdy;
     }
-    public long getPesel() {
+    public int getPesel() {
         return pesel;
     }
 
-    public void setPesel(long pesel) {
+    public void setPesel(int pesel) {
         this.pesel = pesel;
     }
 

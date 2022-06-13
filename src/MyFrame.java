@@ -66,11 +66,11 @@ public class MyFrame extends JFrame implements ActionListener{
         JLabel wskukol = new JLabel();
 
         wskk.setBounds(10,300,120,40);
-        wskkkol.setBounds(130,300,40,40);
+        wskkkol.setBounds(130,300,100,40);
         wskp.setBounds(10,350,120,40);
-        wskpkol.setBounds(130,350,40,40);
+        wskpkol.setBounds(130,350,100,40);
         wsku.setBounds(10,400,120,40);
-        wskukol.setBounds(130,400,40,40);
+        wskukol.setBounds(130,400,100,40);
 
         wskk.setHorizontalAlignment(JLabel.CENTER);
         wskkkol.setHorizontalAlignment(JLabel.CENTER);
@@ -88,13 +88,13 @@ public class MyFrame extends JFrame implements ActionListener{
 
         if(daneKlienta){
             wskkkol.setText("OK");
-        }else wskkkol.setText("Błąd");
+        }else wskkkol.setText("Brak danych");
         if(danePojazdu){
             wskpkol.setText("OK");
-        }else wskpkol.setText("Błąd");
+        }else wskpkol.setText("Brak danych");
         if(daneUbezpieczenia){
             wskukol.setText("OK");
-        }else wskukol.setText("Błąd");
+        }else wskukol.setText("Brak danych");
 
         add(wskk);
         add(wskkkol);
@@ -755,6 +755,7 @@ public class MyFrame extends JFrame implements ActionListener{
                 start.getUbezpieczenie().setDataZakonczenia(nextYear);
                 start.getUbezpieczenie().setPeselKlienta(start.getKlient().getPesel()+"");
                 start.getUbezpieczenie().setNrRejestracyjny(start.getPojazd().getNrRejestracyjny());
+                start.getOdczytZapis().zapiszPLikTekstowo("ubezpieczenie.txt",start.getUbezpieczenie());
                 System.out.println(start.getUbezpieczenie());
 
             });
@@ -796,7 +797,7 @@ public class MyFrame extends JFrame implements ActionListener{
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        start.getKlient().setPesel(Long.parseLong(pesel.getText()));
+        start.getKlient().setPesel(Integer.parseInt(pesel.getText()));
         start.getKlient().setNrWojewodztwa(wojewodztwo.getSelectedIndex());
         start.getKlient().setStanCywilny(Klient.rodzajeStanowCywilnych.valueOf((String) stanCywilny.getSelectedItem()));
         start.getKlient().setStanCywil(stanCywilny.getSelectedIndex());

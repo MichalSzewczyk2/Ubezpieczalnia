@@ -1,9 +1,10 @@
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 
-public class Ubezpieczenie {
+public class Ubezpieczenie implements Serializable {
     String nazwaUbezpieczyciela;
     String rodzaj;
     String cena;

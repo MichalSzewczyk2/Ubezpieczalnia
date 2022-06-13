@@ -33,8 +33,22 @@ public class PlikOdczytZapis {
     {
         try {
             PrintWriter zapis = new PrintWriter(nazwaPliku);
+
             for(int i = 0; i < lista.size(); i++)
                 zapis.println(lista.get(i));
+            zapis.close();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void zapiszPLikTekstowo(String nazwaPliku, Object objekt)
+    {
+
+        String s = new Szyfrowanie().cezarSzyfruj(objekt.toString());
+        try{
+            PrintWriter zapis = new PrintWriter(nazwaPliku);
+            zapis.println(s);
             zapis.close();
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
@@ -131,9 +145,7 @@ public class PlikOdczytZapis {
     {
         try {
             ObjectOutputStream plik = new ObjectOutputStream(new FileOutputStream(nazwaPliku));
-            String zawartosc = objekt.toString();
-            byte[] bitowo = zawartosc.getBytes(StandardCharsets.UTF_8);
-            plik.write(bitowo);      // zapisanie obiektu
+            plik.writeObject(objekt);      // zapisanie obiektu
             plik.close();
         } catch (Exception ex) {
             ex.printStackTrace();
